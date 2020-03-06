@@ -24,10 +24,10 @@ class CreateBooksTable extends Migration
             
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')
-            ->references('id')
-            ->on('categories')
-            ->constrained()
-            ->onDelete('cascade');
+                  ->references('id')
+                  ->on('categories')
+                  ->constrained()
+                  ->onDelete('cascade');
 
             $table->text('description');
             $table->string('image');
