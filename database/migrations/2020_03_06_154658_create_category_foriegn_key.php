@@ -16,7 +16,9 @@ class CreateCategoryForiegnKey extends Migration
         Schema::table('books', function (Blueprint $table) {
             $table->foreign('category_id')
                     ->references('id')
-                    ->on('categories');
+                    ->on('categories')
+                    ->constrained()
+                    ->onDelete('cascade');
         });
     }
 
