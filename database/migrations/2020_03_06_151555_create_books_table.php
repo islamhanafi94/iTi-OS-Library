@@ -20,7 +20,15 @@ class CreateBooksTable extends Migration
             $table->integer('stock');
             $table->integer('available_copies');
             $table->float('rating',3,2,true);
-            $table->unsignedBigInteger('category_id',100);
+            $table->integer('lease_price');
+            
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')
+            ->references('id')
+            ->on('categories')
+            ->constrained()
+            ->onDelete('cascade');
+
             $table->text('description');
             $table->string('image');
             $table->timestamps();
@@ -36,5 +44,6 @@ class CreateBooksTable extends Migration
     public function down()
     {
         Schema::dropIfExists('books');
+        
     }
 }

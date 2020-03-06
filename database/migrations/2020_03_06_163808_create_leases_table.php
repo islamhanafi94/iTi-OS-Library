@@ -27,7 +27,7 @@ class CreateLeasesTable extends Migration
                 ->on('books')
                 ->constrained()
                 ->onDelete('cascade'); 
-            $table->date('leased_at');
+            $table->date('leased_date');
             $table->integer('days');
             $table->integer('cost');   
             $table->timestamps();
