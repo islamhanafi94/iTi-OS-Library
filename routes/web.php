@@ -21,8 +21,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('manager','ManagerController')->middleware('auth');
-
-Route::get('/managerHome',function(){
-    return view('managerHome');
-});
+// Route::resource('manager','ManagerController')->middleware('auth');
