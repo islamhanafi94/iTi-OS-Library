@@ -22,3 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::resource('manager','ManagerController')->middleware('auth');
+
+Route::get('/index',"bookscontroller@index")->name("index")->middleware("auth");
+
+//Route::resource("books","bookscontroller")->middleware("auth");
