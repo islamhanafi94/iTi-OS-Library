@@ -29,12 +29,12 @@ Route::get('/index',"bookscontroller@index")->name("index")->middleware("auth");
 
 Route::resource("users","userscontroller")->middleware("auth");
 
-// Temp route for testing dashboard
+Route::resource('/dashboard/books',"BookController");
 
+// Temp route for testing dashboard
 Route::get('dashboard',function(){
     return view('layouts.dashboard');
 });
-
 
 Route::get('dashboard/books',function(){
     return view('books');

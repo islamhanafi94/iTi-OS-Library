@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\categories;
+use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class categoriescontroller extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class categoriescontroller extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\categories  $categories
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(categories $categories)
+    public function show(Category $category)
     {
         //
     }
@@ -52,10 +53,10 @@ class categoriescontroller extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\categories  $categories
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(categories $categories)
+    public function edit(Category $category)
     {
         //
     }
@@ -64,10 +65,10 @@ class categoriescontroller extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\categories  $categories
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, categories $categories)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -75,11 +76,27 @@ class categoriescontroller extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\categories  $categories
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(categories $categories)
+    public function destroy(Category $category)
     {
         //
     }
+
+    /**
+     * Retrieve category id.
+     *
+     * @param   string $categoryName
+     * @return  integer $id
+     */
+    public function getCategoryId(string $categoryName)
+    {
+        $categoryID = DB::table('categories')
+                    ->select('id')
+                    ->where('name', '=',$categoryName )
+                    ->get();
+        return $categoryID[0]->id;
+    }
+    
 }

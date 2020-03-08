@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\books;
+use App\Book;
 use App\categories;
 use Illuminate\Http\Request;
 
