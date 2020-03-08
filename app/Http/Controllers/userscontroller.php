@@ -79,8 +79,12 @@ class userscontroller extends Controller
         }
         if (isset($request->isactive))
             $user->is_active = 1;
+        else
+            $user->is_active = 0;
         if (isset($request->isadmin))
             $user->is_admin = 1;
+        else
+            $user->is_admin = 0;
 
         $user->username = $request->username;
         $user->email = $request->email;
