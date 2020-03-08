@@ -34,3 +34,9 @@ Route::resource("users","userscontroller")->middleware("auth");
 Route::get('dashboard',function(){
     return view('layouts.dashboard');
 });
+
+
+Route::get('dashboard/books',function(){
+    return view('books');
+})->name('books');
+
