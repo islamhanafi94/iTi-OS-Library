@@ -16,7 +16,6 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('CheckUser');
-        
     }
 
     /**
@@ -28,7 +27,10 @@ class HomeController extends Controller
     {
         if(Auth::user()->is_active) 
         {
-            // return hello;
+            if(Auth::user()->is_admin){
+                // show Admin Dashboard
+                return view('managerHome');
+            }
             return view('home');
         }
         else

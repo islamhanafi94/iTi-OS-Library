@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light sticky-top bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ "iTi Library" }}
@@ -11,19 +11,38 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
             @if (Auth::user()->is_admin)
-                {{-- Admin NavBar controls --}}
-                Manager
-                
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Dropdown link
+                      Users
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#">Add user</a>
+                      <a class="dropdown-item" href="#">List All users</a>
+                      <a class="dropdown-item" href="#">Update user Data</a>
+                    </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Books
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="dropdown-item" href="#">Add Book</a>
+                      <a class="dropdown-item" href="#">List All Books</a>
+                      {{-- <a class="dropdown-item" href="#">Update user Data</a> --}}
+                    </div>
+                  </li> 
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="dropdown-item" href="#">Add Category</a>
+                      <a class="dropdown-item" href="#">List All Categories</a>
+                      {{-- <a class="dropdown-item" href="#">Update user Data</a> --}}
                     </div>
                   </li>                    
+                   
+                    
             @else
                 {{-- user NavBar controls --}}
                 UserNav
