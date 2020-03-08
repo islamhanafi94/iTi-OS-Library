@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class userscontroller extends Controller
@@ -15,6 +16,7 @@ class userscontroller extends Controller
     public function index()
     {
         //
+        return view("users", ["users" => User::all()]);
     }
 
     /**
@@ -58,6 +60,7 @@ class userscontroller extends Controller
     public function edit(User $user)
     {
         //
+        return view('update', ['id' => $user->id, "user" => User::find($user->id)]);
     }
 
     /**
@@ -70,6 +73,19 @@ class userscontroller extends Controller
     public function update(Request $request, User $user)
     {
         //
+        //return $request;
+        if ($request->password === $request->confirmpassword) {
+            $user->password = Hash::make($request->password);
+        }
+        if (isset($request->isactive))
+            $user->is_active = 1;
+        if (isset($request->isadmin))
+            $user->is_admin = 1;
+
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->save();
+        return redirect("/users");
     }
 
     /**
@@ -81,5 +97,7 @@ class userscontroller extends Controller
     public function destroy(User $user)
     {
         //
+        $user->delete();
+        return redirect("/users");
     }
 }
