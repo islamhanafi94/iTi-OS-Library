@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::resource("users","userscontroller")->middleware("auth");
 
 Route::resource('/dashboard/books',"BookController");
 
+Route::resource('/dashboard/category',"CategoryController");
+
 // Temp route for testing dashboard
 Route::get('dashboard',function(){
     return view('layouts.dashboard');
@@ -39,4 +42,9 @@ Route::get('dashboard',function(){
 Route::get('dashboard/books',function(){
     return view('books');
 })->name('books');
+
+
+Route::get('dashboard/category',function(){
+    return view('categories',['categories'=> Category::all()]);
+})->name('category');
 

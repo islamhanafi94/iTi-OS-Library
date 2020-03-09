@@ -15,7 +15,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
 
   </head>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/dashboard/categories">
                         Categories
                         </a>
                     </li>
@@ -96,8 +96,10 @@
                     <h1 class="h2">@yield('title')</h1>
                         @yield('control-panel')
                 </div>
-                @yield('content')
             </main>
+            <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            @yield('content')
+            </div>
         </div>
     </div>
 </body>
