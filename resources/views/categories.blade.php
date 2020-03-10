@@ -40,8 +40,6 @@
 @endsection
 
 @section('content')
-<h2>Categories List</h2>
-
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -56,27 +54,62 @@
         </ul>
     </div>
     @endif
-    <ul>
-    @foreach( $categories as $category)
-    <li>
-        <div class="form-group row mb-0 col-md-8">
-                <h5 class="mb-0 col-md-8 row"> {{ $category->name}} </h5>
-            <div class="offset-md-7 btn-toolbar row w-100">
-                <div class="btn-group mr-7 col-sm w-100">
-                {!! Form::open(['route' => ['category.edit', $category->id] , 'method'=>'get']) !!}
-                {!! Form::submit('Update',['class' => 'btn btn-success']) !!}
-                {!! Form::close() !!}
+    @isset($categories)
+    <table class="table table-striped h5">
+    <thead>
+        <tr>
+            <th scope="col">Category Name</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach( $categories as $category)
+        <tr>
+            <td>{{ $category->name}} </td>
+            <td>
+                <div class="btn-toolbar">
+                    <button class="btn btn-primary btn-group mr-4" data-toggle="modal"
+                        data-target=".update-user-modal">Update</button>
+                    <div class="modal fade update-user-modal" tabindex="-1" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-username">Update Category</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{route('category.update',$category)}}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group col-md-6">
+                                            <label for="username">Category Name</label>
+                                            <input type="text" required class="form-control" name='name'
+                                                id="name" value="{{$category->name}}">
+                                        </div>
+                                        <br>
+                                        <input type="submit" class="btn btn-primary" value="Update">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <form action="{{route('category.destroy',$category)}}" method="POST" style="display:inline-block">
+                        <input type="submit" value="Delete" class="btn btn-danger btn-group">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                    </div>    
                 </div>
-                <div class="btn-group mr-7 col-sm w-100"> 
-                {!! Form::open(['route' => ['category.destroy', $category->id] , 'method'=>'delete']) !!}
-                {!! Form::submit('Delete',['class' => 'btn btn-danger']) !!}
-                {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    </li>
-    <br>
-    @endforeach
-    </ul>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+@endisset
     
 @endsection
