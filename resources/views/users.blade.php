@@ -27,9 +27,9 @@
                             @elseif($user->is_admin ==0)
                             no
                         @endif</td>
-                        <td><a href="{{route('users.edit',$user->id)}}"><button>update</button></a></td>
+                        <td><a href="{{route('user.edit',$user->id)}}"><button>update</button></a></td>
                         <td>
-                            <form action="{{route('users.destroy',$user->id)}}" method="POST" style="display:inline-block">
+                            <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display:inline-block">
                                 <input type="submit" value="delete" class="btn btn-primary">
                                 @csrf
                                 @method('DELETE')
