@@ -1,8 +1,47 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    <button type="button" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target=".add-user-modal">Add New User</button>
+   
+    <div class="modal fade add-user-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-username">Adding New User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['route' => 'user.store']) !!}
+                        <div class="form-group col-md-6">
+                            <label for="username">Username</label>
+                            <input type="text" required class="form-control" name='username' id="username">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input type="email" required class="form-control" name='email' id="email">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password">Password</label>
+                            <input type="password" required class="form-control" name='password' id="password">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input type="password" required class="form-control" name='password_confirmation' id="password_confirmation">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+   
     @isset($users)
-        <table class="table table-striped" colspan="2">
+        <table class="table table-striped h5">
             <thead>
                 <tr>
                     <th scope="col">Username</th>
