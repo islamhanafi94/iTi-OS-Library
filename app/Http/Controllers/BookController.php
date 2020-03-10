@@ -16,7 +16,10 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        // listing all books and return view dashboard/books
+        // $allBooks = \App\Book::join('categories','category_id','=','categories.id')->get();
+        $allBooks = \App\Book::select('*')->get();
+        return view('books',['allBooks'=>$allBooks]);
     }
 
     /**
@@ -56,6 +59,9 @@ class BookController extends Controller
             "description"=>$request->description
             ]
         );
+
+        // return redirect('dashboard/books');
+        return redirect()->route('dashboard/books');
         
     }
 

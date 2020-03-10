@@ -5,6 +5,7 @@
 @endsection
 
 @section('control-panel')
+
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Add New Category</button>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -34,10 +35,13 @@
         </div>
     </div>
 </div>
+</div>
 
 @endsection
 
 @section('content')
+{{-- <h2>Books List</h2> --}}
+
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}

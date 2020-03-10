@@ -70,3 +70,40 @@
     </div>
 
 @endsection
+
+@section('content')
+<h2>Books List</h2>
+{{-- {{$allBooks[0]->category}} --}}
+<div class="table-responsive">
+  <table class="table  table-sm table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th>id</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        <th>stock</th>
+        <th>Available Copies</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    @foreach ($allBooks as $book)
+    <tr>
+      <td>TO-DO</td>
+      <td>{{$book->id}}</td>
+      <td>{{$book->title}}</td>
+      <td>{{$book->author}}</td>
+      <td>{{$book->category->name}}</td>
+      <td>{{$book->stock}}</td>
+      <td>{{$book->available_copies}}</td>
+      <td>{{$book->rating}}</td>
+    </tr>
+    @endforeach
+    </tbody>
+  </table>
+</div>
+@endsection
+
