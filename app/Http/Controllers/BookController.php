@@ -44,8 +44,6 @@ class BookController extends Controller
         $categoryID  = $categoryController->getCategoryId($request->category);
         // validation ?
 
-        // return $request;
-
         // get category id first then insert
         // CategoryController.getCategoryId($request->category);
         Book::create([
@@ -60,7 +58,6 @@ class BookController extends Controller
             ]
         );
 
-        // return redirect('dashboard/books');
         return redirect()->route('dashboard/books');
         
     }

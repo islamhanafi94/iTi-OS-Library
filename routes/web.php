@@ -28,7 +28,7 @@ Route::get('/index',"bookscontroller@index")->name("index")->middleware("auth");
 
 //Route::resource("books","bookscontroller")->middleware("auth");
 
-Route::resource("users","userscontroller")->middleware("auth");
+Route::resource('/user', 'UserController')->middleware("auth");
 
 Route::resource('/dashboard/books',"BookController");
 Route::get("/dashboard/books","BookController@index");
