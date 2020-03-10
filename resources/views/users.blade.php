@@ -1,15 +1,15 @@
-@extends('layouts.lib')
+@extends('layouts.dashboard')
 
 @section('content')
     @isset($users)
-        <table class="users" colspan="2">
+        <table class="table table-striped" colspan="2">
             <thead>
                 <tr>
-                    <th>username</th>
-                    <th>email</th>
-                    <th>is active</th>
-                    <th>is admin</th>
-                    <th colspan="2">actions</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Admin</th>
+                    <th scope="col" class="text-center" colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,10 +27,10 @@
                             @elseif($user->is_admin ==0)
                             no
                         @endif</td>
-                        <td><a href="{{route('user.edit',$user->id)}}"><button>update</button></a></td>
+                        <td><a href="{{route('user.edit',$user->id)}}"><button class="btn btn-primary ">update</button></a></td>
                         <td>
                             <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display:inline-block">
-                                <input type="submit" value="delete" class="btn btn-primary">
+                                <input type="submit" value="delete" class="btn btn-danger">
                                 @csrf
                                 @method('DELETE')
                             </form>
