@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    category Control Panel
+    Category Control Panel
 @endsection
 
 @section('control-panel')
@@ -40,7 +40,7 @@
 @endsection
 
 @section('content')
-{{-- <h2>Books List</h2> --}}
+<h2>Categories List</h2>
 
     @if (session('status'))
         <div class="alert alert-success" role="alert">
