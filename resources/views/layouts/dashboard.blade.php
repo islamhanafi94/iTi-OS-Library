@@ -15,7 +15,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
 
   </head>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/dashboard/categories">
                         Categories
                         </a>
                     </li>
@@ -55,39 +55,6 @@
                         </a>
                     </li>
                     </ul>
-{{-- 
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Current month
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Last quarter
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Year-end sale
-                        </a>
-                    </li>
-                    </ul> --}}
                 </div>
             </nav>
 
@@ -96,8 +63,11 @@
                     <h1 class="h2">@yield('title')</h1>
                         @yield('control-panel')
                 </div>
+        
                 @yield('content')
             </main>
+            {{-- <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            </div> --}}
         </div>
     </div>
 </body>

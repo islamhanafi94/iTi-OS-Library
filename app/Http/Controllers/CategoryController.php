@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -36,7 +37,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required','alpha',
+            Rule::unique('categories')->where(function ($query) {
+                return $query->where('deleted_at' , NULL);
+            }),]
+        ]);
+
+
+        Category::create($request->all());
+        return redirect()->route('category')->with('status','Added new Category');
     }
 
     /**
@@ -58,7 +68,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('updateCategory',['category'=>$category]);
     }
 
     /**
@@ -70,7 +80,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => ['required','alpha',
+            Rule::unique('categories')->where(function ($query) {
+                return $query->where('deleted_at' , NULL);
+            }),]
+        ]);
+
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect()->route('category');
+        
     }
 
     /**
@@ -81,7 +102,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('category');
+
     }
 
     /**
