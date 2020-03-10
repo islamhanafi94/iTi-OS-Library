@@ -1,4 +1,4 @@
-@extends('layouts.lib')
+@extends('layouts.dashboard')
 
 @section('content')
     <form action="{{route('user.update',$id)}}" method="POST" enctype="multipart/form-data">

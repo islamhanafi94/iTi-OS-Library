@@ -9,7 +9,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Active</th>
                     <th scope="col">Admin</th>
-                    <th scope="col" class="text-center" colspan="2">Actions</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,13 +27,16 @@
                             @elseif($user->is_admin ==0)
                             no
                         @endif</td>
-                        <td><a href="{{route('user.edit',$user->id)}}"><button class="btn btn-primary ">update</button></a></td>
                         <td>
-                            <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display:inline-block">
-                                <input type="submit" value="delete" class="btn btn-danger">
-                                @csrf
-                                @method('DELETE')
-                            </form>
+                            <div class="btn-toolbar ">
+                                <a href="{{route('user.edit',$user->id)}}"><button class="btn btn-primary btn-group mr-4">Update</button></a>
+                            
+                                <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display:inline-block">
+                                    <input type="submit" value="Delete" class="btn btn-danger btn-group">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
