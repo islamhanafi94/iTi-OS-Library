@@ -63,7 +63,6 @@
                     <h1 class="h2">@yield('title')</h1>
                         @yield('control-panel')
                 </div>
-        
                 @yield('content')
             </main>
             {{-- <div class="col-md-9 ml-sm-auto col-lg-10 px-4">

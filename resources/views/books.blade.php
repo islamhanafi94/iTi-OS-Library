@@ -34,8 +34,11 @@
                         <label for="category">Category</label>
                         <select id="category" class="form-control" name='category'>
                           <option selected disabled>Choose...</option>
-                          <option>Fiction</option>
-                          {{-- TO-DO --}}
+                          @forelse ($allCategories as $category)
+                        <option>{{$category->name}}</option>
+                          @empty
+                              <option> No Categories</option>
+                          @endforelse
                         </select>
                       </div>
                       
@@ -99,7 +102,19 @@
       <td>{{$book->category->name}}</td>
       <td>{{$book->stock}}</td>
       <td>{{$book->available_copies}}</td>
-      <td>{{$book->rating}}</td>
+      <td>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <style>
+            .checked{
+              color: orange;
+            }
+        </style>
+      </td>
     </tr>
     @endforeach
     </tbody>

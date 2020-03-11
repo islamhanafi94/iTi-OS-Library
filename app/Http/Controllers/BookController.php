@@ -16,10 +16,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        // listing all books and return view dashboard/books
-        // $allBooks = \App\Book::join('categories','category_id','=','categories.id')->get();
         $allBooks = \App\Book::select('*')->get();
-        return view('books',['allBooks'=>$allBooks]);
+
+        $allCategories =  CategoryController::index();
+
+        return view('books',['allBooks'=>$allBooks ,
+                    'allCategories'=>$allCategories ]);
     }
 
     /**
@@ -40,14 +42,9 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $categoryController = new CategoryController;
-        $categoryID  = $categoryController->getCategoryId($request->category);
+        $categoryID  = CategoryController::getCategoryId($request->category);
+
         // validation ?
-
-        // return $request;
-
-        // get category id first then insert
-        // CategoryController.getCategoryId($request->category);
         Book::create([
             "title" => $request->title,
             "author" => $request->author,
@@ -59,9 +56,9 @@ class BookController extends Controller
             "description"=>$request->description
             ]
         );
+        return redirect()->route('islam');
 
         // return redirect('dashboard/books');
-        return redirect()->route('dashboard/books');
         
     }
 
