@@ -3,7 +3,6 @@
 @section('title')
     Books Control Panel
 @endsection
-
 @section('control-panel')
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Add New Book</button>
 
@@ -17,7 +16,7 @@
               </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('books.store') }}">
+                <form method="POST" action="{{ route('books.store') }}" class="needs-validation">
                     @csrf
                     <div class="form-row">
                       <div class="form-group col-md-6">
@@ -34,8 +33,11 @@
                         <label for="category">Category</label>
                         <select id="category" class="form-control" name='category'>
                           <option selected disabled>Choose...</option>
-                          <option>Fiction</option>
-                          {{-- TO-DO --}}
+                          @forelse ($allCategories as $category)
+                        <option>{{$category->name}}</option>
+                          @empty
+                              <option> No Categories</option>
+                          @endforelse
                         </select>
                       </div>
                       
@@ -57,8 +59,6 @@
                         <label for="image">Book Image</label>
                         <input type="file" class="form-control-file" name="image" id="image">
                       </div>
-                      
-                    
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -73,7 +73,7 @@
 
 @section('content')
 <h2>Books List</h2>
-{{-- {{$allBooks[0]->category}} --}}
+
 <div class="table-responsive">
   <table class="table  table-sm table-bordered table-hover">
     <thead>
@@ -92,14 +92,30 @@
 
     @foreach ($allBooks as $book)
     <tr>
-      <td>TO-DO</td>
+      <td>
+        <button class="btn btn-primary btn-group " data-toggle="modal"
+        data-target=".updateBook-{{$book->id}}">Update</button>
+
+        @component('components.updateBookModal',['book'=>$book,'allCategories'=>$allCategories])
+        @endcomponent
+      <form action="{{route('books.destroy',$book)}}" method="POST" style="display:inline-block">
+          <input type="submit" value="Delete" class="btn btn-danger btn-group">
+          @csrf
+          @method('DELETE')
+      </form>
+
+      </td>
       <td>{{$book->id}}</td>
       <td>{{$book->title}}</td>
       <td>{{$book->author}}</td>
       <td>{{$book->category->name}}</td>
       <td>{{$book->stock}}</td>
       <td>{{$book->available_copies}}</td>
-      <td>{{$book->rating}}</td>
+      <td>
+        @component('components.rating',['rating'=>$book->rating])
+            
+        @endcomponent
+      </td>
     </tr>
     @endforeach
     </tbody>

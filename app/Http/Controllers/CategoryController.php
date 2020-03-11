@@ -14,9 +14,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public static function index()
     {
-        //
+        $categoriesList = \App\Category::select('name')->get();
+        return $categoriesList;
+
     }
 
     /**
@@ -116,7 +118,7 @@ class CategoryController extends Controller
      * @param   string $categoryName
      * @return  integer $id
      */
-    public function getCategoryId(string $categoryName)
+    public static function getCategoryId(string $categoryName)
     {
         $categoryID = DB::table('categories')
             ->select('id')

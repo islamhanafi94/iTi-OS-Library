@@ -16,10 +16,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        // listing all books and return view dashboard/books
-        // $allBooks = \App\Book::join('categories','category_id','=','categories.id')->get();
         $allBooks = \App\Book::select('*')->get();
-        return view('books',['allBooks'=>$allBooks]);
+
+        $allCategories =  CategoryController::index();
+
+        return view('books',['allBooks'=>$allBooks ,
+                    'allCategories'=>$allCategories ]);
     }
 
     /**
@@ -40,12 +42,13 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $categoryController = new CategoryController;
-        $categoryID  = $categoryController->getCategoryId($request->category);
-        // validation ?
+        $categoryID  = CategoryController::getCategoryId($request->category);
 
-        // get category id first then insert
-        // CategoryController.getCategoryId($request->category);
+        // validation ?
+        $request->validate([
+            'title' => 'required',
+        ]);
+        
         Book::create([
             "title" => $request->title,
             "author" => $request->author,
@@ -57,8 +60,9 @@ class BookController extends Controller
             "description"=>$request->description
             ]
         );
+        // return redirect()->route('islam');
 
-        return redirect()->route('dashboard/books');
+        return redirect('dashboard/books');
         
     }
 
@@ -93,7 +97,24 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $categoryID  = CategoryController::getCategoryId($request->category);
+
+        //Validation
+        DB::table('books')
+              ->where('id', $book->id)
+              ->update([
+                "title" => $request->title,
+                "author" => $request->author,
+                "stock" => $request->available_copies,
+                "category_id"=>$categoryID,
+                "available_copies" => $request->available_copies,
+                "lease_price_per_day" => $request->lease_price_per_day,
+                "image" => $request->image || $book->image,
+                "description"=>$request->description
+                ]);
+
+        return redirect('dashboard/books');
+
     }
 
     /**
@@ -104,6 +125,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect('dashboard/books');
     }
 }
