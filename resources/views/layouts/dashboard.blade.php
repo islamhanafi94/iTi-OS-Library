@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/dashboard/user">
                         Users
                         </a>
                     </li>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard/categories">
+                        <a class="nav-link" href="/dashboard/category">
                         Categories
                         </a>
                     </li>
@@ -65,8 +65,6 @@
                 </div>
                 @yield('content')
             </main>
-            {{-- <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            </div> --}}
         </div>
     </div>
 </body>
