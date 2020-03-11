@@ -69,9 +69,9 @@
             <td>
                 <div class="btn-toolbar">
                     <button class="btn btn-primary btn-group mr-4" data-toggle="modal"
-                        data-target=".update-user-modal">Update</button>
+                        data-target="#update-user-modal-{{ $category->id }}">Update</button>
                     <div class="modal fade update-user-modal" tabindex="-1" role="dialog"
-                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true" id="update-user-modal-{{ $category->id }}">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -86,7 +86,7 @@
                                         @csrf
                                         @method('PUT')
                                         <div class="form-group col-md-6">
-                                            <label for="username">Category Name</label>
+                                            <label for="name">Category Name</label>
                                             <input type="text" required class="form-control" name='name'
                                                 id="name" value="{{$category->name}}">
                                         </div>
