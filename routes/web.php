@@ -22,27 +22,19 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::resource('manager','ManagerController')->middleware('auth');
-
 Route::get('/index',"bookscontroller@index")->name("index")->middleware("auth");
-
-//Route::resource("books","bookscontroller")->middleware("auth");
 
 Route::resource('/dashboard/user', 'UserController')->middleware("auth");
 
 Route::resource('/dashboard/books',"BookController");
 Route::get("/dashboard/books","BookController@index");
+
 Route::resource('/dashboard/category',"CategoryController");
 
 // Temp route for testing dashboard
 Route::get('dashboard',function(){
     return view('layouts.dashboard');
 });
-
-// Route::get('dashboard/books',function(){
-//     return view('books');
-// })->name('books');
-
 
 Route::get('dashboard/category',function(){
     return view('categories',['categories'=> Category::all()]);
