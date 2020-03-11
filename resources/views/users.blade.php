@@ -71,9 +71,9 @@
                 @endif</td>
             <td>
                 <div class="btn-toolbar">
-                    <button class="btn btn-primary btn-group mr-4" data-toggle="modal"
-                        data-target=".update-user-modal">Update</button>
-                    <div class="modal fade update-user-modal" tabindex="-1" role="dialog"
+                    <!-- <button class="btn btn-primary btn-group mr-4" data-toggle="modal" data-target=".update-user-modal">Update</button> -->
+                    <i class="material-icons edit" data-toggle="modal" data-target="#update-user-modal-{{$user->id}}">&#xE254;</i>
+                    <div class="modal fade update-user-modal-{{$user->id}}" tabindex="-1" role="dialog"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -116,7 +116,8 @@
                     </div>
                 
                     <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display:inline-block">
-                        <input type="submit" value="Delete" class="btn btn-danger btn-group">
+                        <!-- <input type="submit" value="Delete" class="btn btn-danger btn-group"> -->
+                        {!! Form::button ('<i class="material-icons delete">&#xE872;</i>' ,['type' => 'submit' , 'class' => 'deletebtn']) !!}
                         @csrf
                         @method('DELETE')
                     </form>

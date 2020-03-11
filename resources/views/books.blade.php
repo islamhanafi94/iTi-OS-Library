@@ -75,10 +75,9 @@
 <h2>Books List</h2>
 
 <div class="table-responsive">
-  <table class="table  table-sm table-bordered table-hover">
+  <table class="table table-striped h5">
     <thead>
       <tr>
-        <th>Action</th>
         <th>id</th>
         <th>Title</th>
         <th>Author</th>
@@ -86,25 +85,13 @@
         <th>stock</th>
         <th>Available Copies</th>
         <th>Rating</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
 
     @foreach ($allBooks as $book)
     <tr>
-      <td>
-        <button class="btn btn-primary btn-group " data-toggle="modal"
-        data-target=".updateBook-{{$book->id}}">Update</button>
-
-        @component('components.updateBookModal',['book'=>$book,'allCategories'=>$allCategories])
-        @endcomponent
-      <form action="{{route('books.destroy',$book)}}" method="POST" style="display:inline-block">
-          <input type="submit" value="Delete" class="btn btn-danger btn-group">
-          @csrf
-          @method('DELETE')
-      </form>
-
-      </td>
       <td>{{$book->id}}</td>
       <td>{{$book->title}}</td>
       <td>{{$book->author}}</td>
@@ -113,8 +100,21 @@
       <td>{{$book->available_copies}}</td>
       <td>
         @component('components.rating',['rating'=>$book->rating])
-            
+        
         @endcomponent
+      </td>
+      <td>
+        <!-- <button class="btn btn-primary btn-group " data-toggle="modal" data-target=".updateBook-{{$book->id}}">Update</button> -->
+        <i class="material-icons edit" data-toggle="modal" data-target=".updateBook-{{$book->id}}">&#xE254;</i>
+        @component('components.updateBookModal',['book'=>$book,'allCategories'=>$allCategories])
+        @endcomponent
+      <form action="{{route('books.destroy',$book)}}" method="POST" style="display:inline-block">
+          <!-- <input type="submit" value="Delete" class="btn btn-danger btn-group"> -->
+          {!! Form::button ('<i class="material-icons delete">&#xE872;</i>' ,['type' => 'submit' , 'class' => 'deletebtn']) !!}
+          @csrf
+          @method('DELETE')
+      </form>
+
       </td>
     </tr>
     @endforeach

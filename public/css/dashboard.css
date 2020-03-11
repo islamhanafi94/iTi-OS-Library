@@ -80,7 +80,19 @@ body {
         /* Space for fixed navbar */
     }
 }
-
+.edit{
+    color: #FFC107;
+}
+.edit:hover{
+    cursor: pointer;
+}
+.delete{
+    color: #E34724;
+}
+.deletebtn{
+    background-color: transparent ;
+    border: transparent;
+}
 /*
    * Navbar
    */
