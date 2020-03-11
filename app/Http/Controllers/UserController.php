@@ -50,7 +50,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
         
-        return redirect()->route('user');
+        return redirect()->route('/dashboard/user');
     }
 
     /**
@@ -99,7 +99,7 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->save();
-        return redirect("/user");
+        return redirect("/dashboard/user");
     }
 
     /**
@@ -111,6 +111,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect("/user");
+        return redirect("/dashboard/user");
     }
 }

@@ -1,7 +1,11 @@
 @extends('layouts.dashboard')
 
-@section('content')
-<button type="button" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target=".add-user-modal">Add New
+@section('title')
+    User Control Panel 
+@endsection
+
+@section('control-panel')
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".add-user-modal">Add New
     User</button>
 
 <div class="modal fade add-user-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -42,6 +46,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('content')
 
 @isset($users)
 <table class="table table-striped h5">
@@ -71,7 +78,7 @@
                 @endif</td>
             <td>
                 <div class="btn-toolbar">
-                    <button class="btn btn-primary btn-group mr-4" data-toggle="modal"
+                    <button class="btn btn-primary btn-group mr-4" data-toggle="modal" data-id="{{$user->id}}"
                         data-target=".update-user-modal">Update</button>
                     <div class="modal fade update-user-modal" tabindex="-1" role="dialog"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -84,7 +91,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{route('user.update',$user->id)}}" method="POST"
+                                    <form action="{{route('user.update', $user->id)}}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
@@ -115,7 +122,7 @@
                         </div>
                     </div>
                 
-                    <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display:inline-block">
+                    <form action="{{route('user.destroy', $user->id)}}" method="POST" style="display:inline-block">
                         <input type="submit" value="Delete" class="btn btn-danger btn-group">
                         @csrf
                         @method('DELETE')
