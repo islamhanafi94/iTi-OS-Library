@@ -39,8 +39,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => ['required', 'string', 'max:255','unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,NULL,id,deleted_at,NULL'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,NULL,id,deleted_at,NULL'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -49,7 +49,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        
+
         return redirect('/dashboard/user')->with('status', 'Added new User');
     }
 
@@ -84,9 +84,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if ($request->password === $request->confirmpassword) {
-            $user->password = Hash::make($request->password);
-        }
+        $request->validate([
+            'username' => ['required', 'string', 'max:255', "unique:users,username,$user->id,id,deleted_at,NULL"],
+            'email' => ['required', 'string', 'email', 'max:255', "unique:users,email,$user->id,id,deleted_at,NULL"],
+        ]);
+
+
         if (isset($request->isactive))
             $user->is_active = 1;
         else
