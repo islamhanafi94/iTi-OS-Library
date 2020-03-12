@@ -20,8 +20,10 @@ class BookController extends Controller
 
         $allCategories =  CategoryController::index();
 
-        return view('books',['allBooks'=>$allBooks ,
-                    'allCategories'=>$allCategories ]);
+        return view('books', [
+            'allBooks' => $allBooks,
+            'allCategories' => $allCategories
+        ]);
     }
 
     /**
@@ -48,22 +50,22 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required',
         ]);
-        
-        Book::create([
-            "title" => $request->title,
-            "author" => $request->author,
-            "stock" => $request->available_copies,
-            "category_id"=>$categoryID,
-            "available_copies" => $request->available_copies,
-            "lease_price_per_day" => $request->lease_price_per_day,
-            "image" => $request->image,
-            "description"=>$request->description
+
+        Book::create(
+            [
+                "title" => $request->title,
+                "author" => $request->author,
+                "stock" => $request->available_copies,
+                "category_id" => $categoryID,
+                "available_copies" => $request->available_copies,
+                "lease_price_per_day" => $request->lease_price_per_day,
+                "image" => $request->image,
+                "description" => $request->description
             ]
         );
         // return redirect()->route('islam');
 
         return redirect('dashboard/books');
-        
     }
 
     /**
@@ -101,20 +103,19 @@ class BookController extends Controller
 
         //Validation
         DB::table('books')
-              ->where('id', $book->id)
-              ->update([
+            ->where('id', $book->id)
+            ->update([
                 "title" => $request->title,
                 "author" => $request->author,
                 "stock" => $request->available_copies,
-                "category_id"=>$categoryID,
+                "category_id" => $categoryID,
                 "available_copies" => $request->available_copies,
                 "lease_price_per_day" => $request->lease_price_per_day,
                 "image" => $request->image || $book->image,
-                "description"=>$request->description
-                ]);
+                "description" => $request->description
+            ]);
 
         return redirect('dashboard/books');
-
     }
 
     /**
@@ -127,5 +128,28 @@ class BookController extends Controller
     {
         $book->delete();
         return redirect('dashboard/books');
+    }
+
+
+    public function userIndex(Request $request)
+    {   //return $request;
+        $catagory = CategoryController::getAllCategories();
+        if (isset($request->catagory)) {
+            if ($request->catagory === "all")
+                return view("index", ["books" => Book::all(), "catagory" => $catagory]);
+            else {
+                $books =  Book::where("category_id", $request->catagory)->get();
+                if ($books == null)
+                    return view("index", ["catagory" => $catagory]);
+                else
+                    return view("index", ["books" => $books, "catagory" => $catagory]);
+            }
+        } else {
+            $books =  Book::all();
+            if ($books == null)
+                return view("index", ["catagory" => $catagory]);
+            else
+                return view("index", ["books" => $books, "catagory" => $catagory]);
+        }
     }
 }

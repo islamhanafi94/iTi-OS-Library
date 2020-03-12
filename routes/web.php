@@ -22,7 +22,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/index',"bookscontroller@index")->name("index")->middleware("auth");
+Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
 
 Route::resource('/dashboard/user', 'UserController')->middleware("auth");
 

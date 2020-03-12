@@ -126,4 +126,9 @@ class CategoryController extends Controller
             ->get();
         return $categoryID[0]->id;
     }
+
+    public static function getAllCategories()
+    {
+        return Category::all();
+    }
 }

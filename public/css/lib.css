@@ -65,3 +65,12 @@ td{
     border-width: 2px;
     border-style: solid;
 }
+
+.sidebar{
+    background-color: black;
+    color: white;
+}
+
+.listitem{
+    display: block;
+}
