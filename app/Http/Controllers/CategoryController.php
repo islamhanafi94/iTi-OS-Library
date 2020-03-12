@@ -97,7 +97,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->save();
 
-        return redirect()->route('category');
+        return redirect()->route('category')->with('status', 'Category Updated Successfuly');
     }
 
     /**
@@ -109,7 +109,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('category');
+        return redirect()->route('category')->with('status', 'Category Deleted Sucssessfuly');
     }
 
     /**

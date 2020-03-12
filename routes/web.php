@@ -31,6 +31,10 @@ Route::get("/dashboard/books","BookController@index");
 
 Route::resource('/dashboard/category',"CategoryController");
 
+Route::resource('lease',"LeaseController");
+
+Route::resource('chart',"LeaseChartController");
+
 // Temp route for testing dashboard
 Route::get('dashboard',function(){
     return view('layouts.dashboard');
@@ -40,3 +44,4 @@ Route::get('dashboard/category',function(){
     return view('categories',['categories'=> Category::all()]);
 })->name('category');
 
+Route::get('dashboard/reports', 'LeaseChartController@index');
