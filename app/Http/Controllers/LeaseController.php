@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Lease;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -83,28 +84,49 @@ class LeaseController extends Controller
     {
         //
     }
-    public static function getLeaseDate()
+
+    public static function getChartData()
     {
-        // $week = DB::table('leases')->where(DB::raw("(DATE_FORMAT(leased_date,'%d'))"),'<=',date('d+7'))->get();
-        $dateDB = DB::table('leases')
-            ->select('leased_date')
+        $data = DB::table('leases')
+            ->select('leased_date', 'cost')
             ->get();
-        $index = 0; 
-        $dates = array();
-        foreach ($dateDB as $date){
-            $dates[] = $date->leased_date;
+        $cahrtData = array();
+        $profit = 0;
+        $index = 1;
+        $first = DB::table('leases')->select('leased_date')->get()->first();
+        $week = (new Carbon($first->leased_date))->addDays(6);
+
+        foreach ($data as $obj) {
+            if ($obj->leased_date <= $week) {
+                $profit += $obj->cost;
+            } else {
+                $cahrtData[] = ['week' => 'Week '.$index++, 'profit' => $profit];
+                $profit = $obj->cost;
+                $week = (new Carbon($first->leased_date))->addDays(7);
+                $first->leased_date = $week;
+            }
         }
+        $cahrtData[] = ['week' => 'Week '.$index++, 'profit' => $profit];
+
+        return  $cahrtData;
+    }
+
+    public static function getLeaseDate(array $cahrtData)
+    {
+        $dates = array();
+        foreach ($cahrtData as $date) {
+            $dates[] = $date['week'];
+        }
+
         return $dates;
     }
-    public static function getLeaseCost()
+    public static function getLeaseProfits(array $cahrtData)
     {
-        $costDB = DB::table('leases')
-            ->select('cost')
-            ->get();
-        $costs = array();
-        foreach ($costDB as $cost){
-            $costs[] = $cost->cost;
-        }    
-        return $costs;
+        $profits = array();
+        foreach ($cahrtData as $profit) {
+            $profits[] = $profit['profit'];
+        }
+        
+        return $profits;
     }
 }

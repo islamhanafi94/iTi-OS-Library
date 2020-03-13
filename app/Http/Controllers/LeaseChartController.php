@@ -15,15 +15,16 @@ class LeaseChartController extends Controller
      */
     public function index()
     {
-        $cost  = LeaseController::getLeaseCost();
-        $date  = LeaseController::getLeasedate();
-        // return $date;
+        $chartData = LeaseController::getChartData();  
+        $date  = LeaseController::getLeasedate($chartData);
+        $cost  = LeaseController::getLeaseProfits($chartData);
+
         $Chart = new LeaseChart;
         $Chart->labels($date);
         $Chart->dataset('Profit by trimester', 'line', $cost)
               ->color("rgb(255, 99, 132, 1.0)")
-              ->backgroundcolor("rgb(255, 99, 132, 0.2)");
-        // return $Chart;      
+              ->backgroundcolor("rgb(255, 99, 132, 0.2)"); 
+                
         return view('reports', [ 'Chart' => $Chart ] );
     }
 
