@@ -42,13 +42,19 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $categoryID  = CategoryController::getCategoryId($request->category);
-
+        
         // validation ?
         $request->validate([
-            'title' => 'required',
-        ]);
-        
+            'title' => 'required|alpha|',
+            'author' => 'required|alpha|max:256',
+            'stock' => 'required',
+            'available_copies' => 'required',
+            'lease_price_per_day' => 'required',
+            'description' => 'required',
+            'category' => 'required'
+            ]);
+            
+        $categoryID  = CategoryController::getCategoryId($request->category);
         Book::create([
             "title" => $request->title,
             "author" => $request->author,
@@ -100,6 +106,7 @@ class BookController extends Controller
         $categoryID  = CategoryController::getCategoryId($request->category);
 
         //Validation
+
         DB::table('books')
               ->where('id', $book->id)
               ->update([
