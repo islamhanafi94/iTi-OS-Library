@@ -44,10 +44,16 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        // return ($request->title);
+        request()->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
+       ]);
 
-        // validation ?
+        if ($files = $request->file('image')) {
+            $destinationPath = 'image/'; // upload path
+            $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $profileImage);
+        }
+
         $request->validate([
             'title' => 'required|alpha|',
             'author' => 'required|alpha|max:256',
@@ -66,7 +72,7 @@ class BookController extends Controller
                 "category_id" => $categoryID,
                 "available_copies" => $request->available_copies,
                 "lease_price_per_day" => $request->lease_price_per_day,
-                "image" => $request->image,
+                "image" => $profileImage,
                 "description" => $request->description
             ]
         );
@@ -175,11 +181,8 @@ class BookController extends Controller
         $allBooks = \App\Book::select('*')->get();
         return $allBooks;
     }
-<<<<<<< HEAD
 
     
-    // redirct ->route(book page, var => bookList , all comments )
+    //   redirct ->route(book page, var => bookList , all comments )
 
-=======
->>>>>>> d943c470f03cd89a888739fc10863c986ac54caf
 }
