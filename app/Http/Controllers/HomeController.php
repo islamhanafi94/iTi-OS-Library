@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BookController;
 
 class HomeController extends Controller
 {
@@ -15,7 +16,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('CheckUser');
+        // $this->middleware('CheckUser');
     }
 
     /**
@@ -31,7 +32,8 @@ class HomeController extends Controller
                 // show Admin Dashboard
                 return view('managerHome');
             }
-            return view('home');
+            $booksList = BookController::getAllBooks();
+            return view('home',["booksList" => $booksList]);
         }
         else
         {

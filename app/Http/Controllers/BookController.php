@@ -49,7 +49,6 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|alpha|',
             'author' => 'required|alpha|max:256',
-            'stock' => 'required',
             'available_copies' => 'required',
             'lease_price_per_day' => 'required',
             'description' => 'required',
@@ -158,4 +157,18 @@ class BookController extends Controller
                 return view("index", ["books" => $books, "catagory" => $catagory]);
         }
     }
+
+    /**
+     * Display a listing of Books.
+     *
+     * @return array of Books.
+     */
+
+    public static function getAllBooks()
+    {
+        $allBooks = \App\Book::select('*')->get();
+        return $allBooks;
+    }
+
+
 }
