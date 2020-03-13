@@ -1,10 +1,14 @@
 @extends('layouts.dashboard')
 
-@section('content')
-<h1>Sales Graphs</h1>
+@section('title')
+    Profits Graph
+@endsection
 
-<div style="width: 60%">
-    {!! $Chart->container() !!}
-</div>
-{!! $Chart->script() !!}
+@section('content')
+    <div style="width: 70%">
+        {!! $Chart->container() !!}
+    </div>
+
+    {!! $Chart->script() !!}
+
 @endsection

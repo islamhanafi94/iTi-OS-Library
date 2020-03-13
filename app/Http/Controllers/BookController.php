@@ -46,6 +46,7 @@ class BookController extends Controller
     {
         // dd($request);
         // return ($request->title);
+
         // validation ?
         $request->validate([
             'title' => 'required|alpha|',
@@ -54,18 +55,19 @@ class BookController extends Controller
             'lease_price_per_day' => 'required',
             'description' => 'required',
             'category' => 'required'
-            ]);
-            
+        ]);
+
         $categoryID  = CategoryController::getCategoryId($request->category);
-        Book::create([
-            "title" => $request->title,
-            "author" => $request->author,
-            "stock" => $request->available_copies,
-            "category_id"=>$categoryID,
-            "available_copies" => $request->available_copies,
-            "lease_price_per_day" => $request->lease_price_per_day,
-            "image" => $request->image,
-            "description"=>$request->description
+        Book::create(
+            [
+                "title" => $request->title,
+                "author" => $request->author,
+                "stock" => $request->available_copies,
+                "category_id" => $categoryID,
+                "available_copies" => $request->available_copies,
+                "lease_price_per_day" => $request->lease_price_per_day,
+                "image" => $request->image,
+                "description" => $request->description
             ]
         );
         // return redirect()->route('islam');
@@ -138,24 +140,27 @@ class BookController extends Controller
 
 
     public function userIndex(Request $request)
-    {   //return $request;
+    {
+        // get all categories
         $catagory = CategoryController::getAllCategories();
+        //check if user fliterd books by category 
         if (isset($request->catagory)) {
+            //check which category user requested
             if ($request->catagory === "all")
                 return view("index", ["books" => Book::all(), "catagory" => $catagory]);
             else {
                 $books =  Book::where("category_id", $request->catagory)->get();
-                if ($books == null)
-                    return view("index", ["catagory" => $catagory]);
-                else
-                    return view("index", ["books" => $books, "catagory" => $catagory]);
+                return view("index", ["books" => $books, "catagory" => $catagory]);
             }
+        }
+        // check if user fliterd books by search
+        else if (isset($request->search)) {
+            $userSearch = $request->search;
+            $books = Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
+            return view("index", ["books" => $books, "catagory" => $catagory]);
         } else {
             $books =  Book::all();
-            if ($books == null)
-                return view("index", ["catagory" => $catagory]);
-            else
-                return view("index", ["books" => $books, "catagory" => $catagory]);
+            return view("index", ["books" => $books, "catagory" => $catagory]);
         }
     }
 
@@ -170,8 +175,11 @@ class BookController extends Controller
         $allBooks = \App\Book::select('*')->get();
         return $allBooks;
     }
+<<<<<<< HEAD
 
     
     // redirct ->route(book page, var => bookList , all comments )
 
+=======
+>>>>>>> d943c470f03cd89a888739fc10863c986ac54caf
 }

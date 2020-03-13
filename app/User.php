@@ -38,4 +38,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function favorites()
+    {
+        return $this->belongsToMany('App\Book', 'favorites', 'user_id', 'book_id')->withTimestamps();
+    }
+
+    public function leases()
+    {
+        return $this->belongsToMany('App\Book', 'leases', 'user_id', 'book_id')->withPivot('leased_date', 'days', 'cost')->withTimestamps();
+    }
+    
+
 }
