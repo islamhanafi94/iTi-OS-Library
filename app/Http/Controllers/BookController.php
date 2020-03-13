@@ -44,7 +44,8 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        
+        // dd($request);
+        // return ($request->title);
         // validation ?
         $request->validate([
             'title' => 'required|alpha|',
@@ -170,5 +171,7 @@ class BookController extends Controller
         return $allBooks;
     }
 
+    
+    // redirct ->route(book page, var => bookList , all comments )
 
 }
