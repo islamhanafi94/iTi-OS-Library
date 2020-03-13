@@ -49,20 +49,7 @@ User Control Panel
 @endsection
 
 @section('content')
-@if (session('status'))
-    <div class="alert alert-success" role="alert">
-        {{ session('status') }}
-    </div>
-@endif
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+
 @isset($users)
 <table class="table table-striped h5">
     <thead>
@@ -91,11 +78,12 @@ User Control Panel
                 @endif</td>
             <td>
                 <div class="btn-toolbar">
-                    <!-- <button class="btn btn-primary btn-group mr-4" data-toggle="modal" data-target=".update-user-modal">Update</button> -->
-                    <i class="material-icons edit" data-toggle="modal" data-target="#update-user-modal-{{$user->id}}">&#xE254;</i>
-                    <div class="modal fade" tabindex="-1" role="dialog"
-                        aria-labelledby="myLargeModalLabel" aria-hidden="true" id="update-user-modal-{{ $user->id }}">
-                        <div class="modal-dialog modal-lg" role="document">
+                    <button class="btn btn-primary btn-group mr-4" data-toggle="modal"
+                        data-target="#update-user-modal-{{ $user->id }}">Update</button>
+
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                        aria-hidden="true" id="update-user-modal-{{ $user->id }}">
+                        <div class=" modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-username">Update User</h5>
@@ -134,10 +122,8 @@ User Control Panel
                             </div>
                         </div>
                     </div>
-                
-                    <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display:inline-block">
-                        <!-- <input type="submit" value="Delete" class="btn btn-danger btn-group"> -->
-                        {!! Form::button ('<i class="material-icons delete">&#xE872;</i>' ,['type' => 'submit' , 'class' => 'deletebtn']) !!}
+                    <form action="{{route('user.destroy', $user->id)}}" method="POST" style="display:inline-block">
+                        <input type="submit" value="Delete" class="btn btn-danger btn-group">
                         @csrf
                         @method('DELETE')
                     </form>    

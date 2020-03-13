@@ -40,15 +40,17 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required','alpha',
-            Rule::unique('categories')->where(function ($query) {
-                return $query->where('deleted_at' , NULL);
-            }),]
+            'name' => [
+                'required', 'alpha',
+                Rule::unique('categories')->where(function ($query) {
+                    return $query->where('deleted_at', NULL);
+                }),
+            ]
         ]);
 
 
         Category::create($request->all());
-        return redirect()->route('category')->with('status','Added new Category');
+        return redirect()->route('category')->with('status', 'Added new Category');
     }
 
     /**
@@ -70,7 +72,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('updateCategory',['category'=>$category]);
+        return view('updateCategory', ['category' => $category]);
     }
 
     /**
@@ -82,18 +84,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        // return $request;
         $request->validate([
-            'name' => ['required','alpha',
-            Rule::unique('categories')->where(function ($query) {
-                return $query->where('deleted_at' , NULL);
-            }),]
+            'name' => [
+                'required', 'alpha',
+                Rule::unique('categories')->where(function ($query) {
+                    return $query->where('deleted_at', NULL);
+                }),
+            ]
         ]);
 
         $category->name = $request->name;
         $category->save();
 
-        return redirect()->route('category');
-        
+        return redirect()->route('category')->with('status', 'Category Updated Successfuly');
     }
 
     /**
@@ -105,8 +109,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('category');
-
+        return redirect()->route('category')->with('status', 'Category Deleted Sucssessfuly');
     }
 
     /**
@@ -118,10 +121,14 @@ class CategoryController extends Controller
     public static function getCategoryId(string $categoryName)
     {
         $categoryID = DB::table('categories')
-                    ->select('id')
-                    ->where('name', '=',$categoryName )
-                    ->get();
+            ->select('id')
+            ->where('name', '=', $categoryName)
+            ->get();
         return $categoryID[0]->id;
     }
-    
+
+    public static function getAllCategories()
+    {
+        return Category::all();
+    }
 }

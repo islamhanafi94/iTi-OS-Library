@@ -22,7 +22,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/index',"bookscontroller@index")->name("index")->middleware("auth");
+Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
 
 Route::resource('/dashboard/user', 'UserController')->middleware("auth");
 
@@ -30,6 +30,10 @@ Route::resource('/dashboard/books',"BookController");
 Route::get("/dashboard/books","BookController@index");
 
 Route::resource('/dashboard/category',"CategoryController");
+
+Route::resource('lease',"LeaseController");
+
+Route::resource('chart',"LeaseChartController");
 
 // Temp route for testing dashboard
 Route::get('dashboard',function(){
@@ -40,3 +44,4 @@ Route::get('dashboard/category',function(){
     return view('categories',['categories'=> Category::all()]);
 })->name('category');
 
+Route::get('dashboard/reports', 'LeaseChartController@index');

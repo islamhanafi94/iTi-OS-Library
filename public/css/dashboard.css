@@ -17,7 +17,7 @@ body {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: -1;
+    z-index: 500;
     /* Behind the navbar */
     padding: 48px 0 0;
     /* Height of navbar */
@@ -80,7 +80,19 @@ body {
         /* Space for fixed navbar */
     }
 }
-
+.edit{
+    color: #FFC107;
+}
+.edit:hover{
+    cursor: pointer;
+}
+.delete{
+    color: #E34724;
+}
+.deletebtn{
+    background-color: transparent ;
+    border: transparent;
+}
 /*
    * Navbar
    */
