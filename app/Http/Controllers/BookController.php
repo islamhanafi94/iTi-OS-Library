@@ -20,8 +20,10 @@ class BookController extends Controller
 
         $allCategories =  CategoryController::index();
 
-        return view('books',['allBooks'=>$allBooks ,
-                    'allCategories'=>$allCategories ]);
+        return view('books', [
+            'allBooks' => $allBooks,
+            'allCategories' => $allCategories
+        ]);
     }
 
     /**
@@ -42,28 +44,33 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $categoryID  = CategoryController::getCategoryId($request->category);
 
         // validation ?
         $request->validate([
-            'title' => 'required',
+            'title' => 'required|alpha|',
+            'author' => 'required|alpha|max:256',
+            'available_copies' => 'required',
+            'lease_price_per_day' => 'required',
+            'description' => 'required',
+            'category' => 'required'
         ]);
-        
-        Book::create([
-            "title" => $request->title,
-            "author" => $request->author,
-            "stock" => $request->available_copies,
-            "category_id"=>$categoryID,
-            "available_copies" => $request->available_copies,
-            "lease_price_per_day" => $request->lease_price_per_day,
-            "image" => $request->image,
-            "description"=>$request->description
+
+        $categoryID  = CategoryController::getCategoryId($request->category);
+        Book::create(
+            [
+                "title" => $request->title,
+                "author" => $request->author,
+                "stock" => $request->available_copies,
+                "category_id" => $categoryID,
+                "available_copies" => $request->available_copies,
+                "lease_price_per_day" => $request->lease_price_per_day,
+                "image" => $request->image,
+                "description" => $request->description
             ]
         );
         // return redirect()->route('islam');
 
         return redirect('dashboard/books');
-        
     }
 
     /**
@@ -100,21 +107,21 @@ class BookController extends Controller
         $categoryID  = CategoryController::getCategoryId($request->category);
 
         //Validation
+
         DB::table('books')
-              ->where('id', $book->id)
-              ->update([
+            ->where('id', $book->id)
+            ->update([
                 "title" => $request->title,
                 "author" => $request->author,
                 "stock" => $request->available_copies,
-                "category_id"=>$categoryID,
+                "category_id" => $categoryID,
                 "available_copies" => $request->available_copies,
                 "lease_price_per_day" => $request->lease_price_per_day,
                 "image" => $request->image || $book->image,
-                "description"=>$request->description
-                ]);
+                "description" => $request->description
+            ]);
 
         return redirect('dashboard/books');
-
     }
 
     /**
@@ -127,5 +134,43 @@ class BookController extends Controller
     {
         $book->delete();
         return redirect('dashboard/books');
+    }
+
+
+    public function userIndex(Request $request)
+    {
+        // get all categories
+        $catagory = CategoryController::getAllCategories();
+        //check if user fliterd books by category 
+        if (isset($request->catagory)) {
+            //check which category user requested
+            if ($request->catagory === "all")
+                return view("index", ["books" => Book::all(), "catagory" => $catagory]);
+            else {
+                $books =  Book::where("category_id", $request->catagory)->get();
+                return view("index", ["books" => $books, "catagory" => $catagory]);
+            }
+        }
+        // check if user fliterd books by search
+        else if (isset($request->search)) {
+            $userSearch = $request->search;
+            $books = Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
+            return view("index", ["books" => $books, "catagory" => $catagory]);
+        } else {
+            $books =  Book::all();
+            return view("index", ["books" => $books, "catagory" => $catagory]);
+        }
+    }
+
+    /**
+     * Display a listing of Books.
+     *
+     * @return array of Books.
+     */
+
+    public static function getAllBooks()
+    {
+        $allBooks = \App\Book::select('*')->get();
+        return $allBooks;
     }
 }

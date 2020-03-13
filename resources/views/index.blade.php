@@ -1,33 +1,34 @@
-@extends('layouts.lib')
-
+@extends('layouts.app')
 @section('content')
+    <div class="search">
+        <form action={{route("index")}} method="GET">
+            <input type="text" placeholder="search" name="search">
+            <input type="submit" value="search">
+        </form>
+    </div>
     @isset($catagory)
-    <form action="{{route('index')}}" class="filter-form">
-        @csrf
-        <select name="catagory">
-            <option value="all">all catagories</option>
+        <div class="sidebar">
+            <h1 class="sidebartitle">select by category</h1>
+            <a href={{route("index",["catagory"=>"all"])}}><button>all categories</button></a>
             @foreach ($catagory as $item)
-                <option value={{$item->id}}>{{$item->name}}</option>
+                <a href={{route("index",["catagory"=>$item->id])}}><button>{{$item->name}}</button></a>
             @endforeach
-        </select>
-        <input type="submit" value="filter by catagory" class="filter">
-    </form>
+        </div>
     @endisset
-
     @isset($books)
         <div class="books-list">
             @foreach ($books as $book)
                 <div class="books-card">
                     <div class="book-header">{{$book->title}}</div>
                     <div class="book-body">{{$book->description}}</div>
-                    <div class="book-footer">{{$book->lease_price}}$</div>
+                    <div class="book-footer">{{$book->lease_price_per_day}}$</div>
                 </div>
              @endforeach    
         </div>      
     @endisset
-    @empty($books)
-     <div class="empty-books">
-         no books avilable...
-     </div>
-    @endempty
+    @if(count($books) < 1)
+        <div class="empty-books">
+            no books avilable...
+        </div>
+    @endif
 @endsection
