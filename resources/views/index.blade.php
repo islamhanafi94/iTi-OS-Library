@@ -1,11 +1,17 @@
 @extends('layouts.app')
 @section('content')
+    <div class="search">
+        <form action={{route("index")}} method="GET">
+            <input type="text" placeholder="search" name="search">
+            <input type="submit" value="search">
+        </form>
+    </div>
     @isset($catagory)
         <div class="sidebar">
             <h1 class="sidebartitle">select by category</h1>
-            <button><a href={{route("index",["catagory"=>"all"])}}>all categories</a></button>
+            <a href={{route("index",["catagory"=>"all"])}}><button>all categories</button></a>
             @foreach ($catagory as $item)
-                <button><a href={{route("index",["catagory"=>$item->id])}}>{{$item->name}}</a></button>
+                <a href={{route("index",["catagory"=>$item->id])}}><button>{{$item->name}}</button></a>
             @endforeach
         </div>
     @endisset
@@ -20,9 +26,9 @@
              @endforeach    
         </div>      
     @endisset
-    @empty($books)
-     <div class="empty-books">
-         no books avilable...
-     </div>
-    @endempty
+    @if(count($books) < 1)
+        <div class="empty-books">
+            no books avilable...
+        </div>
+    @endif
 @endsection
