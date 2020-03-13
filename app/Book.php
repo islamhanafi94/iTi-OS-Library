@@ -19,4 +19,14 @@ class Book extends Model
     public function category(){
         return $this->belongsTo('App\Category');
     }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany('App\User', 'favorites', 'book_id', 'user_id');
+    }
+
+    public function leasedBy()
+    {
+        return $this->belongsToMany('App\User', 'leases', 'book_id', 'user_id');//->withPivot('leased_date', 'days', 'cost')->withTimestamps();
+    }
 }
