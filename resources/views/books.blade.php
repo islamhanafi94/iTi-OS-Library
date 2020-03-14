@@ -16,7 +16,7 @@
               </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('books.store') }}" class="needs-validation">
+                <form method="POST" action="{{ route('books.store') }}" class="needs-validation" enctype="multipart/form-data">
                     @csrf
                     <div class="form-row">
                       <div class="form-group col-md-6">
