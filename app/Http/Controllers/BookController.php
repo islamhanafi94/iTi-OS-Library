@@ -125,7 +125,7 @@ class BookController extends Controller
                 "category_id" => $categoryID,
                 "available_copies" => $request->available_copies,
                 "lease_price_per_day" => $request->lease_price_per_day,
-                "image" => $request->image || $book->image,
+                "image" =>$book->image,
                 "description" => $request->description
             ]);
 
