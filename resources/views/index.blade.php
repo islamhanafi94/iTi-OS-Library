@@ -6,6 +6,13 @@
             <input type="submit" value="search">
         </form>
     </div>
+    <div class="orderby">
+        <form action={{route("index")}} method="GET">
+            <label>order by : </label>
+            <input type="submit" name="latest" value="latest">
+            <input type="submit" name="rate" value="rate">
+        </form>
+    </div>
     @isset($catagory)
         <div class="sidebar">
             <h1 class="sidebartitle">select by category</h1>
