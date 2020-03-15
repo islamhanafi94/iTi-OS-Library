@@ -10,7 +10,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-            @if (Auth::user()->is_admin)
+            @guest
+                {{-- <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+ --}}
+            @elseif (Auth::user()->is_admin)
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Users
@@ -59,9 +69,7 @@
                     {{ "My Books" }}
                 </a>
             </li>
-
-
-            @endif
+            @endguest
             </ul>
 
             <!-- Right Side Of Navbar -->

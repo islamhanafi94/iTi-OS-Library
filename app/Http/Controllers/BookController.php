@@ -149,6 +149,16 @@ class BookController extends Controller
     {
         // get all categories
         $catagory = CategoryController::getAllCategories();
+
+        //check if user ordered by latest books 
+        if(isset($request->latest)){
+            return view("index", ["books" => Book::all()->sortByDesc("created_at"), "catagory" => $catagory]);
+        }
+        // check if user ordered books by rating 
+        else if (isset($request->rate)){
+            return view("index", ["books" => Book::all()->sortByDesc("rating"), "catagory" => $catagory]);
+        }
+
         //check if user fliterd books by category 
         if (isset($request->catagory)) {
             //check which category user requested
