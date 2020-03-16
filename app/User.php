@@ -51,7 +51,7 @@ class User extends Authenticatable
     
     public function comments()
     {
-        return $this->belongsToMany('App\Comment', 'comment', 'user_id', 'book_id')->withTimestamps();
+        return $this->belongsToMany('App\Comment', 'comments', 'user_id', 'book_id')->withTimestamps();
     }
 
 }

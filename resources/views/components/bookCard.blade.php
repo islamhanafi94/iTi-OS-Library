@@ -28,7 +28,10 @@
 
                             @endcomponent
                         @endif
-                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                        {{-- Dalia: I made action on view btn redirct you to page name book.blade.php onclick="window.location='{{ route("books.show", array($book)) }}'"--}}
+                        {!! Form::open(['route' => ['book.show', $book], 'method'=>'get']) !!}
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
+                        {!! Form::close() !!}
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-secondary">Favorite</button>
                     <p>{{property_exists(Auth::user()->leases, $book->id)}}</p>
