@@ -11,6 +11,8 @@
             <label>order by : </label>
             <input type="submit" name="latest" value="latest">
             <input type="submit" name="rate" value="rate">
+            <input type="hidden" name="sortdata" value={{$sortdata}}>
+            <input type="hidden" name="sortvalue" value={{$sortvalue}}>
         </form>
     </div>
     @isset($catagory)

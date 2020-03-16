@@ -50,7 +50,7 @@ class BookController extends Controller
     {
         request()->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
-       ]);
+        ]);
 
         if ($files = $request->file('image')) {
             $destinationPath = 'image/'; // upload path
@@ -97,10 +97,10 @@ class BookController extends Controller
         //  return Auth::user()->id;
         //Book::with('commentedBy')->where('id',$book->id)->get()
         $comments = new Comment;
-        $comments = DB::table('comments')->where('book_id',$book->id)->get();
-        foreach ( $comments as $comment ) {
+        $comments = DB::table('comments')->where('book_id', $book->id)->get();
+        foreach ($comments as $comment) {
             $user = User::find($comment->user_id);
-            $commentsData[] = [ 'ownner' => $user->username, 'comment' => $comment->comment ];
+            $commentsData[] = ['ownner' => $user->username, 'comment' => $comment->comment];
         }
         // return $commentsData;
         return view('book', ['book' => $book, 'comments' => $commentsData]);
@@ -139,7 +139,7 @@ class BookController extends Controller
                 "category_id" => $categoryID,
                 "available_copies" => $request->available_copies,
                 "lease_price_per_day" => $request->lease_price_per_day,
-                "image" =>$book->image,
+                "image" => $book->image,
                 "description" => $request->description
             ]);
 
@@ -163,34 +163,50 @@ class BookController extends Controller
     {
         // get all categories
         $catagory = CategoryController::getAllCategories();
+        
+        //check if user sorted data by latest or rating and sort the books the user curruntly listing 
+        if (isset($request->latest) || isset($request->rate)) {
+            $sortdata = $request->sortdata;
+            $sortvalue = $request->sortvalue;
+            if ($sortdata === "category") {
+                if ($sortvalue === "all")
+                    $books = Book::all();
+                else
+                    $books =  Book::where("category_id", $sortvalue)->get();
+            } elseif ($sortdata === "search") {
+                $userSearch = $request->sortvalue;
+                $books = Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
+            } else if ($sortdata === "none") {
+                $books = Book::all();
+            }
 
-        //check if user ordered by latest books 
-        if(isset($request->latest)){
-            return view("index", ["books" => Book::all()->sortByDesc("created_at"), "catagory" => $catagory]);
-        }
-        // check if user ordered books by rating 
-        else if (isset($request->rate)){
-            return view("index", ["books" => Book::all()->sortByDesc("rating"), "catagory" => $catagory]);
+            if (isset($request->latest)) {
+                $books = $books->sortByDesc("created_at");
+            } elseif (isset($request->rate)) {
+                $books = $books->sortByDesc("rating");
+            }
+
+            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => $request->sortdata, "sortvalue" => $request->sortvalue]);
         }
 
         //check if user fliterd books by category 
         if (isset($request->catagory)) {
             //check which category user requested
             if ($request->catagory === "all")
-                return view("index", ["books" => Book::all(), "catagory" => $catagory]);
+                return view("index", ["books" => Book::all(), "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory]);
             else {
                 $books =  Book::where("category_id", $request->catagory)->get();
-                return view("index", ["books" => $books, "catagory" => $catagory]);
+                return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory]);
             }
         }
         // check if user fliterd books by search
         else if (isset($request->search)) {
             $userSearch = $request->search;
             $books = Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
-            return view("index", ["books" => $books, "catagory" => $catagory]);
+            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "search", "sortvalue" => $request->search]);
         } else {
             $books =  Book::all();
-            return view("index", ["books" => $books, "catagory" => $catagory]);
+            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "none", "sortvalue" => "none"]);
         }
     }
 
@@ -206,7 +222,7 @@ class BookController extends Controller
         return $allBooks;
     }
 
-    
+
     //   redirct ->route(book page, var => bookList , all comments )
 
 }
