@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -35,7 +36,9 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return 'here';
+        Auth::user()->comments()->attach($request->bookId, ['user_id'=> Auth::user()->id, 'comment'=>$request->comment]);
+        return redirect('book/'.$request->bookId); 
     }
 
     /**
@@ -80,6 +83,6 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        Auth::user()->comments()->detach($comment);
     }
 }

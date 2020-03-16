@@ -24,8 +24,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
 
+
 Route::resource('/dashboard/user', 'UserController')->middleware("auth");
 
+// for user
+Route::resource('/book',"BookController");
+Route::get('/book/{book}', 'BookController@show')->name('book.show');
+
+// for admin
 Route::resource('/dashboard/books',"BookController");
 Route::get("/dashboard/books","BookController@index");
 
@@ -34,6 +40,8 @@ Route::resource('/dashboard/category',"CategoryController");
 Route::resource('lease',"LeaseController");
 
 Route::resource('chart',"LeaseChartController");
+
+Route::resource('comment',"CommentController");
 
 // Temp route for testing dashboard
 Route::get('dashboard',function(){
@@ -45,3 +53,4 @@ Route::get('dashboard/category',function(){
 })->name('category');
 
 Route::get('dashboard/reports', 'LeaseChartController@index');
+

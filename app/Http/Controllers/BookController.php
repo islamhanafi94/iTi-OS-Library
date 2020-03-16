@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CategoryController;
 use App\Book;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Comment;
+use App\User;
 
 class BookController extends Controller
 {
@@ -89,7 +93,17 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        // return $book;
+        //  return Auth::user()->id;
+        //Book::with('commentedBy')->where('id',$book->id)->get()
+        $comments = new Comment;
+        $comments = DB::table('comments')->where('book_id',$book->id)->get();
+        foreach ( $comments as $comment ) {
+            $user = User::find($comment->user_id);
+            $commentsData[] = [ 'ownner' => $user->username, 'comment' => $comment->comment ];
+        }
+        // return $commentsData;
+        return view('book', ['book' => $book, 'comments' => $commentsData]);
     }
 
     /**

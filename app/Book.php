@@ -29,4 +29,10 @@ class Book extends Model
     {
         return $this->belongsToMany('App\User', 'leases', 'book_id', 'user_id');//->withPivot('leased_date', 'days', 'cost')->withTimestamps();
     }
+
+    public function commentedBy()
+    {
+        return $this->belongsToMany('App\Comment', 'comments', 'book_id', 'user_id');
+    }
+    
 }

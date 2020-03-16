@@ -28,10 +28,10 @@ class HomeController extends Controller
     {
         if(Auth::user()->is_active) 
         {
-            if(Auth::user()->is_admin){
-                // show Admin Dashboard
-                return view('managerHome');
-            }
+            // if(Auth::user()->is_admin){
+            //     // show Admin Dashboard
+            //     return view('layouts.dashboard');
+            // }
             $booksList = BookController::getAllBooks();
             return view('home',["booksList" => $booksList]);
         }
