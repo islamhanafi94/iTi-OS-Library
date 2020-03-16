@@ -42,6 +42,7 @@ class LeaseController extends Controller
          *  todo
          *   make sure that there is a book id sent from the modal form to $request object
          */
+        return $request;
         Auth::user()->leases()->attach($request->id, ['leased_date' => date('yyyy-mm-dd'), 'days' => $request->days, 'cost' => $request->cost]);
         return redirect()->route(home);
     }
