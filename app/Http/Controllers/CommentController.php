@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,7 @@ class CommentController extends Controller
     {
         // return 'here';
         Auth::user()->comments()->attach($request->bookId, ['user_id'=> Auth::user()->id, 'comment'=>$request->comment]);
-        return redirect('book/'.$request->bookId); 
+        return redirect('book/'.$request->bookId);
     }
 
     /**
@@ -82,12 +83,17 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id )
+    public function destroy(Comment $comment)
     {
-        $comment = Comment::find($id);
-        $this->authorize('delete',$comment);
-        Auth::user()->comments()->detach($id);
-        return  redirect()->back();
+//        $comment = Comment::find($id);
+//        $this->authorize('delete', Auth::user());
+        if(Auth::user()->can('delete', $comment))
+        {
+//            echo "hello";
+            Auth::user()->comments()->detach($comment);
+            return  redirect()->back();
+        }
+
     }
 
     public static function getComments(int $id)
@@ -98,7 +104,7 @@ class CommentController extends Controller
         {
             return 'No Comments';
         }
-        else 
+        else
         {
             $commentat = array();
             foreach ( $comments as $comment ) {
@@ -106,7 +112,7 @@ class CommentController extends Controller
             }
         }
         return $commentat;
-        
+
     }
 
     public static function getCommentsOwnner(int $id)
@@ -117,7 +123,7 @@ class CommentController extends Controller
         {
             return 'No Comments';
         }
-        else 
+        else
         {
             foreach ( $comments as $comment ) {
                 $ownnersIds[] = $comment->user_id;
