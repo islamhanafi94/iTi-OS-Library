@@ -121,7 +121,7 @@ class UserController extends Controller
         foreach ( $ids as $id )
         {
             $user = User::find($id);
-            $ownnerNames[] = $user->username;
+            $ownnerNames[] = ['id' => $user->id, 'ownner' => $user->username];
         }
         return $ownnerNames;
     }

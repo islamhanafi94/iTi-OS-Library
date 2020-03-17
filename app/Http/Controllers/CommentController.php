@@ -79,13 +79,15 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy( $id )
     {
+        $comment = Comment::find($id);
         $this->authorize('delete',$comment);
-        Auth::user()->comments()->detach($comment);
+        Auth::user()->comments()->detach($id);
+        return  redirect()->back();
     }
 
     public static function getComments(int $id)
@@ -100,7 +102,7 @@ class CommentController extends Controller
         {
             $commentat = array();
             foreach ( $comments as $comment ) {
-                $commentat[] = $comment->comment;
+                $commentat[] =['comment' => $comment->comment, 'id' => $comment->id];
             }
         }
         return $commentat;

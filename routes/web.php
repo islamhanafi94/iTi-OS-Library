@@ -41,7 +41,7 @@ Route::resource('lease',"LeaseController");
 
 Route::resource('chart',"LeaseChartController");
 
-Route::resource('comment',"CommentController");
+Route::resource('comment',"CommentController")->middleware('auth');
 
 // Temp route for testing dashboard
 Route::get('dashboard',function(){
