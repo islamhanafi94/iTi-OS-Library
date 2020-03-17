@@ -93,17 +93,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        // return $book;
-        //  return Auth::user()->id;
-        //Book::with('commentedBy')->where('id',$book->id)->get()
-        $comments = new Comment;
-        $comments = DB::table('comments')->where('book_id', $book->id)->get();
-        foreach ($comments as $comment) {
-            $user = User::find($comment->user_id);
-            $commentsData[] = ['ownner' => $user->username, 'comment' => $comment->comment];
-        }
-        // return $commentsData;
-        return view('book', ['book' => $book, 'comments' => $commentsData]);
+        $comments  = CommentController::getComments($book->id);
+        $commentsOwnners = CommentController::getCommentsOwnner($book->id);
+        return view('book', ['book' => $book, 'comments' => $comments, 'ownners' => $commentsOwnners]);
     }
 
     /**

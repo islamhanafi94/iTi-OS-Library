@@ -31,6 +31,9 @@
                     <div class="book-header">{{$book->title}}</div>
                     <div class="book-body">{{$book->description}}</div>
                     <div class="book-footer">{{$book->lease_price_per_day}}$</div>
+                    <div class="book-footer">
+                        <a href={{route("addfavorite",["book_id"=>$book->id])}}><button>add to favorite</button></a>
+                    </div>
                 </div>
              @endforeach    
         </div>      

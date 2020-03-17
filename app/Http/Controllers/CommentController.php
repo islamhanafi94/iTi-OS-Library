@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -78,11 +79,51 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy( $id )
     {
-        Auth::user()->comments()->detach($comment);
+        $comment = Comment::find($id);
+        $this->authorize('delete',$comment);
+        Auth::user()->comments()->detach($id);
+        return  redirect()->back();
+    }
+
+    public static function getComments(int $id)
+    {
+        $comments = new Comment;
+        $comments = DB::table('comments')->where('book_id',$id)->get();
+        if($comments->isEmpty())
+        {
+            return 'No Comments';
+        }
+        else 
+        {
+            $commentat = array();
+            foreach ( $comments as $comment ) {
+                $commentat[] =['comment' => $comment->comment, 'id' => $comment->id];
+            }
+        }
+        return $commentat;
+        
+    }
+
+    public static function getCommentsOwnner(int $id)
+    {
+        $comments = new Comment;
+        $comments = DB::table('comments')->where('book_id',$id)->get();
+        if($comments->isEmpty())
+        {
+            return 'No Comments';
+        }
+        else 
+        {
+            foreach ( $comments as $comment ) {
+                $ownnersIds[] = $comment->user_id;
+            }
+            $ownnersNames = UserController::getCommentOwnner($ownnersIds);
+        }
+        return $ownnersNames;
     }
 }
