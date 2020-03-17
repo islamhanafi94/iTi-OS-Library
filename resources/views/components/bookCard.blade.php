@@ -33,7 +33,23 @@
                             <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
                         {!! Form::close() !!}
                     </div>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Favorite</button>
+                    {{-- <button type="button" class="btn btn-sm btn-outline-secondary">Favorite</button> --}}
+                    @if (gettype($favorites->search($favorites->find($book->id))) != "boolean")
+                        <form action={{route("favorites.destroy",[$book->id])}} method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="delete from favorites" class="btn btn-sm btn-outline-secondary">
+                            {{-- <input type="hidden" name="user_id" value={{Auth::id()}}> --}}
+                            <input type="hidden" name="book_id" value={{$book->id}}>
+                            <input type="hidden" name="source" value="home">
+                        </form>
+                    @else
+                        <form action={{route("favorites.store",["book_id"=>$book->id])}} method="POST">
+                            @csrf
+                            <input type="submit" value="add to favorites" class="btn btn-sm btn-outline-secondary">
+                            <input type="hidden" name="source" value="home">
+                        </form>
+                    @endif
                     <p>{{property_exists(Auth::user()->leases, $book->id)}}</p>
                 </div>
             </div>

@@ -6,7 +6,7 @@
         <div class="row">
 
     @forelse ($booksList as $book)
-        @component('components.bookCard',["book"=>$book])
+        @component('components.bookCard',["book"=>$book,"favorites" => $favorites])
         @endcomponent
     @empty
         <h1>No Books</h1>

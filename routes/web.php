@@ -20,7 +20,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@userIndex')->name('home');
 
 Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
 
@@ -55,4 +56,6 @@ Route::get('dashboard/category',function(){
 Route::get('dashboard/reports', 'LeaseChartController@index');
 
 
-Route::get('/favorite','FavoriteController@store')->name("addfavorite");
+Route::resource('favorites','FavoriteController');
+
+// Route::get('/favorite','FavoriteController@store')->name("addfavorite");
