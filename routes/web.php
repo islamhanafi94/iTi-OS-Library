@@ -20,7 +20,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard')->middleware("auth");
+
 Route::get('/home', 'HomeController@userIndex')->name('home');
 
 Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
@@ -33,7 +34,7 @@ Route::resource('/book',"BookController");
 Route::get('/book/{book}', 'BookController@show')->name('book.show');
 
 // for admin
-Route::resource('/dashboard/books',"BookController");
+Route::resource('/dashboard/books',"BookController")->middleware('CheckUser');
 Route::get("/dashboard/books","BookController@index");
 
 Route::resource('/dashboard/category',"CategoryController");

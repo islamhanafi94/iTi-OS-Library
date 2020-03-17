@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Illuminate\Support\Facades\Auth;
 
-
 use Closure;
 
-class CheckUser
+class checkActive
 {
     /**
      * Handle an incoming request.
@@ -18,13 +17,10 @@ class CheckUser
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::user()->is_admin)
+        if(!Auth::user()->is_active)
         {
-            return redirect('/');
-        }
-        else
-        {
-            return redirect('/dashboard');
+            Auth::logout();
+            return abort(403, 'Your Account Has Been Disabled');
         }
         return $next($request);
     }

@@ -15,8 +15,10 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+        // $this->middleware('checkActive');
         // $this->middleware('CheckUser');
+        parent::__construct();
     }
 
     /**
@@ -26,17 +28,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->is_active) {
-            // if(Auth::user()->is_admin){
-            //     // show Admin Dashboard
-            //     return view('layouts.dashboard');
-            // }
-            $booksList = BookController::getAllBooks();
-            return view('home', ["booksList" => $booksList]);
-        } else {
-            Auth::logout();
-            return view('welcome');
-        }
+        // return view('dashboard');
+        $booksList = BookController::getAllBooks();
+        return view('dashboard', ["booksList" => $booksList]);
+    
     }
 
     public function userIndex()
