@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BookController;
 
@@ -30,8 +29,8 @@ class HomeController extends Controller
     {
         // return view('dashboard');
         $booksList = BookController::getAllBooks();
-        return view('dashboard', ["booksList" => $booksList]);
-    
+        return view('layouts.dashboard', ["booksList" => $booksList]);
+
     }
 
     public function userIndex()

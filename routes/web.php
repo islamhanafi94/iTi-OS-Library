@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Category;
 
 /*
@@ -44,11 +45,6 @@ Route::resource('lease',"LeaseController");
 Route::resource('chart',"LeaseChartController");
 
 Route::resource('comment',"CommentController")->middleware('auth');
-
-// Temp route for testing dashboard
-Route::get('dashboard',function(){
-    return view('layouts.dashboard');
-})->middleware("auth",'checkActive');
 
 Route::get('dashboard/category',function(){
     return view('categories',['categories'=> Category::all()]);
