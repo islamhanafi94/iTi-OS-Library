@@ -155,7 +155,8 @@ class BookController extends Controller
     {
         // get all categories
         $catagory = CategoryController::getAllCategories();
-        
+        $favorites = UserController::getFavoritesBooks(Auth::id());
+        //return gettype($favorites->search($favorites->find(1)));
         //check if user sorted data by latest or rating and sort the books the user curruntly listing 
         if (isset($request->latest) || isset($request->rate)) {
             $sortdata = $request->sortdata;
@@ -178,27 +179,29 @@ class BookController extends Controller
                 $books = $books->sortByDesc("rating");
             }
 
-            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => $request->sortdata, "sortvalue" => $request->sortvalue]);
+            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => $request->sortdata, "sortvalue" => $request->sortvalue, "favorites" => $favorites]);
         }
 
         //check if user fliterd books by category 
         if (isset($request->catagory)) {
             //check which category user requested
             if ($request->catagory === "all")
-                return view("index", ["books" => Book::all(), "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory]);
+                return view("index", ["books" => Book::all(), "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory, "favorites" => $favorites]);
             else {
                 $books =  Book::where("category_id", $request->catagory)->get();
-                return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory]);
+                return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory, "favorites" => $favorites]);
             }
         }
         // check if user fliterd books by search
         else if (isset($request->search)) {
             $userSearch = $request->search;
             $books = Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
-            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "search", "sortvalue" => $request->search]);
+            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "search", "sortvalue" => $request->search, "favorites" => $favorites]);
         } else {
             $books =  Book::all();
-            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "none", "sortvalue" => "none"]);
+
+            //return $favorites->search($favorites->find(Book::find(3)->id));
+            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "none", "sortvalue" => "none", "favorites" => $favorites]);
         }
     }
 
