@@ -1,4 +1,4 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 @section('content')
     @isset($books)
         <div class="books-list">
@@ -15,8 +15,8 @@
                         <input type="hidden" name="book_id" value={{$book->pivot->book_id}}>
                     </form>
                 </div>
-             @endforeach    
-        </div>      
+             @endforeach
+        </div>
     @endisset
     @if(count($books) < 1)
         <div class="empty-books">
