@@ -27,7 +27,7 @@
                     <div class="form-group col-md-6">
                         <ul>
                             <li>Cost/day : {{$book->lease_price_per_day}} L.E</li>
-                            <input type="hidden" id="costPerDay" value={{$book->lease_price_per_day}}>
+                            <input type="hidden" class="costPerDay" id="costPerDay" value={{$book->lease_price_per_day}}>
                             <li>available Copies : {{$book->available_copies}}</li>
                         </ul>
                     </div>
@@ -36,12 +36,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="days" class="col-form-label ">Lease Days:</label>
-                        <input class="form-control" name="days" id="days" max="30" min="1" type="days" oninput="input()">
+                        <input class="form-control days" name="days" id="days" max="30" min="1" type="days" oninput="input({{$index}})">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="cost" class="col-form-label ">Total Cost:</label>
-                        <span id="total"></span>
-                        <input class="form-control" id="cost" name="cost" type="hidden" value=>
+                        <span class="total" id="total"></span>
+                        <input class="form-control cost" id="cost" name="cost" type="hidden">
                     </div>
                 </div>
 
@@ -56,9 +56,11 @@
   </div>
 
 <script type="text/javascript">
-    function input() {
-        total.innerHTML = costPerDay.value * days.value;
-        cost.value = total.innerHTML;
+    function input(id) {
+        console.log(id);
+        document.getElementsByClassName('total')[id].innerHTML= document.getElementsByClassName('costPerDay')[id].value * document.getElementsByClassName('days')[id].value;
+        // total.innerHTML = costPerDay.value * days.value;
+        document.getElementsByClassName('cost')[id].value = document.getElementsByClassName('total')[id].innerHTML;
     }
 </script>
 

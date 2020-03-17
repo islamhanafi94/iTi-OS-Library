@@ -4,10 +4,15 @@
 <div class="album py-5 bg-light">
     <div class="container">
         <div class="row">
-
+            <?php 
+               $index = 0; 
+            ?>
     @forelse ($booksList as $book)
-        @component('components.bookCard',["book"=>$book])
+        @component('components.bookCard',["book"=>$book, 'index' => $index])
         @endcomponent
+        <?php
+            $index++
+        ?>
     @empty
         <h1>No Books</h1>
     @endforelse

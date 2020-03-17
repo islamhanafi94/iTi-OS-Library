@@ -24,7 +24,8 @@
                             <button type="button" disabled class="btn btn-sm btn-outline-secondary">Leased</button>
                         @else
                             <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" class="btn btn-sm btn-outline-secondary">Lease</button>
-                            @component('components.leaseModal', ['book'=>$book])
+                            
+                            @component('components.leaseModal', ['book'=>$book, 'index' => $index])
 
                             @endcomponent
                         @endif
