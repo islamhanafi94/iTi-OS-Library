@@ -29,7 +29,6 @@
                             <li>Cost/day : {{$book->lease_price_per_day}} L.E</li>
                             <input type="hidden" id="costPerDay" value={{$book->lease_price_per_day}}>
                             <li>available Copies : {{$book->available_copies}}</li>
-                            <li>category : {{$book->category->name}}</li>
                         </ul>
                     </div>
                 </div>
@@ -37,19 +36,14 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="days" class="col-form-label ">Lease Days:</label>
-                        <input class="form-control" name="days" id="days" max="30" min="1" type="days">
+                        <input class="form-control" name="days" id="days" max="30" min="1" type="days" oninput="input()">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="cost" class="col-form-label ">Total Cost:</label>
-                        <input class="form-control" name="cost" id="cost" min="0" type="cost" disabled>
+                        <span id="total"></span>
+                        <input class="form-control" id="cost" name="cost" type="hidden" value=>
                     </div>
                 </div>
-
-                <script>
-                    days.oninput = function () {
-                        cost.value = costPerDay.value * days.value;
-                    }
-                </script>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -61,4 +55,10 @@
     </div>
   </div>
 
+<script type="text/javascript">
+    function input() {
+        total.innerHTML = costPerDay.value * days.value;
+        cost.value = total.innerHTML;
+    }
+</script>
 
