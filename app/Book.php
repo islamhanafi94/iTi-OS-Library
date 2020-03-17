@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Book extends Model
 {
     use SoftDeletes;
-        
+
     protected $table = 'books';
 
-    // to accept mass assignment 
+    // to accept mass assignment
     protected $fillable = ['title','author','stock','category_id',
                 'available_copies','lease_price_per_day',
                 'image','description'];
@@ -32,7 +32,7 @@ class Book extends Model
 
     public function commentedBy()
     {
-        return $this->belongsToMany('App\Comment', 'comments', 'book_id', 'user_id');
+        return $this->belongsToMany('App\User', 'comments', 'book_id', 'user_id');
     }
-    
+
 }

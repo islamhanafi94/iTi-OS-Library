@@ -39,7 +39,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         // return 'here';
-        Auth::user()->comments()->attach($request->bookId, ['user_id'=> Auth::user()->id, 'comment'=>$request->comment]);
+        Auth::user()->comments()->attach($request->bookId, ['comment'=>$request->comment]);
         return redirect('book/'.$request->bookId);
     }
 
@@ -83,14 +83,13 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-//        $comment = Comment::find($id);
+        $comment = Comment::find($id);
 //        $this->authorize('delete', Auth::user());
         if(Auth::user()->can('delete', $comment))
         {
-//            echo "hello";
-            Auth::user()->comments()->detach($comment);
+            Auth::user()->comments()->detach($id);
             return  redirect()->back();
         }
 

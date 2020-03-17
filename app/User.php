@@ -48,10 +48,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Book', 'leases', 'user_id', 'book_id')->withPivot('leased_date', 'days', 'cost')->withTimestamps();
     }
-    
+
     public function comments()
     {
-        return $this->belongsToMany('App\Comment', 'comments', 'user_id', 'book_id')->withTimestamps();
+        return $this->belongsToMany('App\Book', 'comments', 'user_id', 'book_id')->withPivot('comment')->withTimestamps();
     }
 
 }
