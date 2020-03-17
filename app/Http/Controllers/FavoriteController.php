@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
 use App\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 
 class FavoriteController extends Controller
 {
@@ -16,6 +18,8 @@ class FavoriteController extends Controller
     public function index()
     {
         //
+        $books = UserController::getFavoritesBooks(Auth::id());
+        return view('favorites', ["books" => $books, "fav" => Favorite::all()]);
     }
 
     /**
@@ -84,8 +88,16 @@ class FavoriteController extends Controller
      * @param  \App\Favorite  $favorite
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Favorite $favorite)
+    public function destroy(Request $request)
     {
         //
+        if (isset($request->source)) {
+            $favorite = Favorite::whereRaw('user_id = ? and book_id = ? ', [Auth::id(), $request->book_id]);
+            $favorite->delete();
+            return redirect('index');
+        }
+        $favorite = Favorite::whereRaw('user_id = ? and book_id = ? ', [$request->user_id, $request->book_id]);
+        $favorite->delete();
+        return redirect('favorites');
     }
 }

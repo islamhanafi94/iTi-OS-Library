@@ -31,9 +31,22 @@
                     <div class="book-header">{{$book->title}}</div>
                     <div class="book-body">{{$book->description}}</div>
                     <div class="book-footer">{{$book->lease_price_per_day}}$</div>
-                    <div class="book-footer">
-                        <a href={{route("addfavorite",["book_id"=>$book->id])}}><button>add to favorite</button></a>
-                    </div>
+                    @if (gettype($favorites->search($favorites->find($book->id))) != "boolean")
+                        <form action={{route("favorites.destroy",[$book->id])}} method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="delete from favorites">
+                            {{-- <input type="hidden" name="user_id" value={{Auth::id()}}> --}}
+                            <input type="hidden" name="book_id" value={{$book->id}}>
+                            <input type="hidden" name="source" value="index">
+                        </form>
+                    @else
+                        <form action={{route("favorites.store",["book_id"=>$book->id])}} method="POST">
+                            @csrf
+                            <input type="submit" value="add to favorites">
+                        </form>
+                    @endif
+                    
                 </div>
              @endforeach    
         </div>      
