@@ -7,5 +7,7 @@
 @component('components.comment',["book" => $book])
 @endcomponent
 
-@component('components.commentsList',["comments" => $comments , "ownners" => $ownners])
+{{-- , "ownners" => $ownners --}}
+
+@component('components.commentsList',["comments" => $comments ])
 @endcomponent

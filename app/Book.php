@@ -32,7 +32,7 @@ class Book extends Model
 
     public function commentedBy()
     {
-        return $this->belongsToMany('App\User', 'comments', 'book_id', 'user_id');
+        return $this->belongsToMany('App\User', 'comments', 'book_id', 'user_id')->withPivot('id','comment');
     }
 
 }
