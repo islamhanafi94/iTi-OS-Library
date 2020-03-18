@@ -55,4 +55,6 @@ Route::get('dashboard/reports', 'LeaseChartController@index');
 
 Route::resource('favorites','FavoriteController');
 
+Route::resource('rates','RateController');
+
 // Route::get('/favorite','FavoriteController@store')->name("addfavorite");

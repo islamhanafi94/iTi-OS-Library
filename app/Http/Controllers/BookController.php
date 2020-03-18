@@ -93,10 +93,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        // $comments  = CommentController::getComments($book->id);
-        // $commentsOwnners = CommentController::getCommentsOwnner($book->id);  , 'ownners' => $commentsOwnners
         $comments = $book->commentedBy()->get();
-        // return $comments;
         return view('book', ['book' => $book, 'comments' => $comments]);
     }
 
@@ -222,7 +219,10 @@ class BookController extends Controller
         return Book::all();
     }
 
+    public static function updateBookRate(int $id, float $avgRate) {
+        $book = Book::find($id);
+        DB::table('books')->where('id', $book->id)->update(["rating" => $avgRate]);
 
-    //   redirct ->route(book page, var => bookList , all comments )
+    }
 
 }
