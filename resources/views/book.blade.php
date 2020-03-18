@@ -13,7 +13,12 @@
                 @component('components.rating',['rating'=>$book->rating])
                 @endcomponent
             </li>
-        </ul>    
+            <li class="list-group-item h4">
+                @component('components.userRating',["book" => $book])
+                @endcomponent
+            </li>
+        </ul>
+            
     </div>
     <br>
     <p class="text-md-left h5">{{$book->description}}</p>
@@ -23,8 +28,4 @@
     @component('components.commentsList',["comments" => $comments ])
     @endcomponent
 </div>
-
-
-
-
 @endsection

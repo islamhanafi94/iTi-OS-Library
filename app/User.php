@@ -54,4 +54,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Book', 'comments', 'user_id', 'book_id')->withPivot('comment')->withTimestamps();
     }
 
+    public function rate()
+    {
+        return $this->belongsToMany('App\Book', 'rates', 'user_id', 'book_id')->withPivot('rating')->withTimestamps();   
+    }
+
 }
