@@ -13,10 +13,14 @@
                 @component('components.rating',['rating'=>$book->rating])
                 @endcomponent
             </li>
-            <li class="list-group-item h4">
-                @component('components.userRating',["book" => $book])
-                @endcomponent
-            </li>
+            @if(Auth::user()->rate()->where('book_id', $book->id)->exists())
+
+            @else
+                <li class="list-group-item h4">
+                    @component('components.userRating',["book" => $book])
+                    @endcomponent
+                </li>
+            @endif    
         </ul>
             
     </div>
