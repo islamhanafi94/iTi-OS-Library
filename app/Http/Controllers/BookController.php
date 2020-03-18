@@ -59,8 +59,8 @@ class BookController extends Controller
         }
 
         $request->validate([
-            'title' => 'required|alpha|',
-            'author' => 'required|alpha|max:256',
+            'title' => 'required|',
+            'author' => 'required|max:256',
             'available_copies' => 'required',
             'lease_price_per_day' => 'required',
             'description' => 'required',

@@ -35,7 +35,7 @@ Route::resource('/book',"BookController");
 Route::get('/book/{book}', 'BookController@show')->name('book.show');
 
 // for admin
-Route::resource('/dashboard/books',"BookController")->middleware('CheckUser');
+Route::resource('/dashboard/books',"BookController");
 Route::get("/dashboard/books","BookController@index");
 
 Route::resource('/dashboard/category',"CategoryController");

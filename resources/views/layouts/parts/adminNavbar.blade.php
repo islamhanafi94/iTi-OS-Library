@@ -60,8 +60,8 @@
                 </a>
             </li>
             <li class="navbar-item">
-                <a class="nav-link" href="{{ url('/home') }}">
-                    {{ "Favorite" }}
+                <a class="nav-link" href="{{ url('/favorites') }}">
+                    {{ "Favorites" }}
                 </a>
             </li>
             <li class="navbar-item">
