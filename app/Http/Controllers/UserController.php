@@ -117,15 +117,6 @@ class UserController extends Controller
         return redirect("/dashboard/user")->with('status', 'User Deleted Successfuly');
     }
 
-    public static function getCommentOwnner(array $ids)
-    {
-        foreach ($ids as $id) {
-            $user = User::find($id);
-            $ownnerNames[] = ['id' => $user->id, 'ownner' => $user->username];
-        }
-        return $ownnerNames;
-    }
-
     public static function getFavoritesBooks($id)
     {
         return  User::find($id)->favorites;

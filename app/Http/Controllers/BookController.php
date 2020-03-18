@@ -93,9 +93,11 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        $comments  = CommentController::getComments($book->id);
-        $commentsOwnners = CommentController::getCommentsOwnner($book->id);
-        return view('book', ['book' => $book, 'comments' => $comments, 'ownners' => $commentsOwnners]);
+        // $comments  = CommentController::getComments($book->id);
+        // $commentsOwnners = CommentController::getCommentsOwnner($book->id);  , 'ownners' => $commentsOwnners
+        $comments = $book->commentedBy()->get();
+        // return $comments;
+        return view('book', ['book' => $book, 'comments' => $comments]);
     }
 
     /**

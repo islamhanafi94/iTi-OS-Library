@@ -38,7 +38,6 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        // return 'here';
         Auth::user()->comments()->attach($request->bookId, ['comment'=>$request->comment]);
         return redirect('book/'.$request->bookId);
     }
@@ -86,49 +85,12 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::find($id);
-//        $this->authorize('delete', Auth::user());
         if(Auth::user()->can('delete', $comment))
         {
-            Auth::user()->comments()->detach($id);
+            $comment->delete();
             return  redirect()->back();
         }
 
     }
-
-    public static function getComments(int $id)
-    {
-        $comments = new Comment;
-        $comments = DB::table('comments')->where('book_id',$id)->get();
-        if($comments->isEmpty())
-        {
-            return 'No Comments';
-        }
-        else
-        {
-            $commentat = array();
-            foreach ( $comments as $comment ) {
-                $commentat[] =['comment' => $comment->comment, 'id' => $comment->id];
-            }
-        }
-        return $commentat;
-
-    }
-
-    public static function getCommentsOwnner(int $id)
-    {
-        $comments = new Comment;
-        $comments = DB::table('comments')->where('book_id',$id)->get();
-        if($comments->isEmpty())
-        {
-            return 'No Comments';
-        }
-        else
-        {
-            foreach ( $comments as $comment ) {
-                $ownnersIds[] = $comment->user_id;
-            }
-            $ownnersNames = UserController::getCommentOwnner($ownnersIds);
-        }
-        return $ownnersNames;
-    }
 }
+
