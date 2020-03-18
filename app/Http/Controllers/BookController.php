@@ -94,7 +94,15 @@ class BookController extends Controller
     public function show(Book $book)
     {
         $comments = $book->commentedBy()->get();
-        return view('book', ['book' => $book, 'comments' => $comments]);
+        $rate = Auth::user()->rate()->where('book_id', $book->id)->get();
+        $ratesCount = count($rate);
+        if($ratesCount == 0 )
+        {
+            return view('book', ['book' => $book, 'comments' => $comments]);
+        } 
+        else {
+            return view('book', ['book' => $book, 'comments' => $comments, 'rate' => $rate[0]]);
+        }
     }
 
     /**

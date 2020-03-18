@@ -15,9 +15,5 @@
         <input type="radio" name="rating" id="rating-1" value="1" required>
         <label for="rating-1"></label>
     </div>
-    @if(Auth::user()->rate()->where('book_id', $book->id)->exists())
-        <button type="submit" class="rate btn" disabled >Rated</button>
-    @else
-        <button type="submit" class="rate btn" >Rate</button>
-    @endif    
+        <button type="submit" class="rate btn" >Rate</button>   
 {!! Form::close() !!}

@@ -13,14 +13,15 @@
                 @component('components.rating',['rating'=>$book->rating])
                 @endcomponent
             </li>
-            @if(Auth::user()->rate()->where('book_id', $book->id)->exists())
-
-            @else
-                <li class="list-group-item h4">
+            <li class="list-group-item h4">Your Rate :
+                @if(Auth::user()->rate()->where('book_id', $book->id)->exists())
+                    @component('components.rating',['rating' => $rate->pivot->rating])
+                    @endcomponent
+                @else
                     @component('components.userRating',["book" => $book])
                     @endcomponent
-                </li>
-            @endif    
+                @endif    
+             </li>
         </ul>
             
     </div>
