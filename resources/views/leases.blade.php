@@ -4,9 +4,16 @@
         <div class="container">
             <div class="row">
 
+                <?php
+                    $index = 0;
+                ?>
+
                 @forelse ($leases as $lease)
-                    @component('components.bookCard', ['book' => $lease])
+                    @component('components.bookCard', ['book' => $lease, 'index' => $index])
                     @endcomponent
+                        <?php
+                            $index++;
+                        ?>
                 @empty
                     <h1>No Books</h1>
                 @endforelse

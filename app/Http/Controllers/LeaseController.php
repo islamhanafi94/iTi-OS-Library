@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
 use App\Favorite;
 use Carbon\Carbon;
 use App\Lease;
@@ -40,6 +41,9 @@ class LeaseController extends Controller
     public function store(Request $request)
     {
         Auth::user()->leases()->attach($request->id, ['leased_date' => date('yy-m-d'), 'days' => $request->days, 'cost' => $request->cost]);
+        $book = Book::find($request->id);
+        $book->available_copies -= 1;
+        $book->save();
         return redirect()->route('home');
     }
 

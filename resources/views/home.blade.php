@@ -5,12 +5,19 @@
     <div class="container">
         <div class="row">
 
-    @forelse ($booksList as $book)
-        @component('components.bookCard',["book"=>$book,"favorites" => $favorites])
-        @endcomponent
-    @empty
-        <h1>No Books</h1>
-    @endforelse
+            <?php
+                $index = 0;
+            ?>
+
+            @forelse ($booksList as $book)
+                @component('components.bookCard',["book"=>$book, 'index'=>$index, "favorites" => $favorites])
+                @endcomponent
+                <?php
+                    $index++
+                ?>
+            @empty
+                <h1>No Books</h1>
+            @endforelse
         </div>
     </div>
 </div>
@@ -28,7 +35,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        You are logged in!  
+                        You are logged in!
                     </div>
                 </div>
             </div>
