@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\CategoryController;
+use App\User;
 use App\Book;
-
+use App\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Comment;
-use App\User;
+use App\Http\Controllers\CategoryController;
 
 class BookController extends Controller
 {
@@ -47,25 +47,24 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        request()->validate([
+    {        
+        $request->validate([
+            'title' => ['required',Rule::unique('books')->where(function ($query) {
+                return $query->where('deleted_at', NULL);
+            })],
+            'author' => 'required|max:256',
+            'available_copies' => 'required',
+            'lease_price_per_day' => 'required',
+            'description' => 'required',
+            'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
         ]);
-
+        
         if ($files = $request->file('image')) {
             $destinationPath = 'image/'; // upload path
             $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $profileImage);
         }
-
-        $request->validate([
-            'title' => 'required|',
-            'author' => 'required|max:256',
-            'available_copies' => 'required',
-            'lease_price_per_day' => 'required',
-            'description' => 'required',
-            'category' => 'required'
-        ]);
 
         $categoryID  = CategoryController::getCategoryId($request->category);
         Book::create(
@@ -80,7 +79,6 @@ class BookController extends Controller
                 "description" => $request->description
             ]
         );
-        // return redirect()->route('islam');
 
         return redirect('dashboard/books');
     }

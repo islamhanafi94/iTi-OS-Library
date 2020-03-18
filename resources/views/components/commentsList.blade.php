@@ -2,7 +2,7 @@
 @foreach ($comments as $comment)
 <div class="d-flex  justify-content-between align-items-top">
     <div class=" d-flex  justify-content-between align-items-top">    
-        <h4>{{$comment->username." : "}} </h4>
+        <h3>{{$comment->username.": "}} </h3>
         <div class="lead">{{$comment->pivot->comment}}</div>
     </div>
     <div>

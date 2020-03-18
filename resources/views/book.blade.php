@@ -28,10 +28,11 @@
     <br>
     <p class="text-md-left h5">{{$book->description}}</p>
     <hr>
-    <h3><strong>Comments : </strong></h3>
-    @component('components.commentsList',["comments" => $comments ])
-    @endcomponent
+    <h3><strong>Comments</strong></h3>
     @component('components.comment',["book" => $book])
+    @endcomponent
+    <hr>
+    @component('components.commentsList',["comments" => $comments ])
     @endcomponent
 </div>
 @endsection
