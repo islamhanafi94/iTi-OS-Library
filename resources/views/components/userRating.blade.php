@@ -1,3 +1,6 @@
+<head>
+    <link href="{{ asset('css/userRating.css') }}" rel="stylesheet">
+</head>
 {!! Form::open(['route' => 'rates.store']) !!}
     <div class="rating">
         <input type="hidden" name="bookId" value={{$book->id}}>

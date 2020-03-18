@@ -40,7 +40,7 @@
                       <a class="dropdown-item" href="#">List All Books</a>
                       {{-- <a class="dropdown-item" href="#">Update user Data</a> --}}
                     </div>
-                  </li> 
+                  </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Categories
@@ -50,9 +50,9 @@
                       <a class="dropdown-item" href="#">List All Categories</a>
                       {{-- <a class="dropdown-item" href="#">Update user Data</a> --}}
                     </div>
-                  </li>                    
-                   
-                    
+                  </li>
+
+
             @else
             <li class="navbar-item">
                 <a class="nav-link" href="{{ url('/home') }}">
@@ -65,7 +65,7 @@
                 </a>
             </li>
             <li class="navbar-item">
-                <a class="nav-link" href="{{ url('/home') }}">
+                <a class="nav-link" href="{{ url('/lease') }}">
                     {{ "My Books" }}
                 </a>
             </li>

@@ -26,7 +26,7 @@
                         {{$book->description}}
                         <br>
                     @endif
-                    {{substr($book->description,0,100)."... "}}<a href="{{ url('/home') }}">see more</a>
+                    {{substr($book->description,0,100)."... "}}<a href="{{ route('book.show',$book) }}">see more</a>
                     <br><br>
 
                 </div>
@@ -34,12 +34,11 @@
                     <div class="btn-group">
                         @if ($book->available_copies == 0)
                             <button type="button" disabled class="btn btn-sm btn-outline-secondary">unavaliable</button>
-                        @elseif(property_exists(Auth::user()->leases, $book->id))
+                        @elseif(Auth::user()->leases()->where('book_id', $book->id)->exists())
                             <button type="button" disabled class="btn btn-sm btn-outline-secondary">Leased</button>
                         @else
                             <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" class="btn btn-sm btn-outline-secondary">Lease</button>
-                            @component('components.leaseModal', ['book'=>$book])
-
+                            @component('components.leaseModal', ['book'=>$book, 'index' => $index])
                             @endcomponent
                         @endif
                         {{-- Dalia: I made action on view btn redirct you to page name book.blade.php onclick="window.location='{{ route("books.show", array($book)) }}'"--}}
@@ -82,10 +81,9 @@
                     <input type="hidden" name="user_id" value={{$book->pivot->user_id}}>
                         <input type="hidden" name="book_id" value={{$book->pivot->book_id}}>
                     </form>
-        
+
                     @endif
                 </div>
-                <p>{{property_exists(Auth::user()->leases, $book->id)}}</p>
             </div>
         </div>
     </div>
