@@ -26,7 +26,7 @@
                         {{$book->description}}
                         <br>
                     @endif
-                    {{substr($book->description,0,100)."... "}}<a href="{{ url('/home') }}">see more</a>
+                    {{substr($book->description,0,100)."... "}}<a href="{{ route('book.show',$book) }}">see more</a>
                     <br><br>
 
                 </div>
