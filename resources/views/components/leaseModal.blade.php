@@ -36,7 +36,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="days" class="col-form-label ">Lease Days:</label>
-                        <input class="form-control" name="days" id="days" max="30" min="1" type="days" oninput="input()">
+                        <input class="form-control" name="days" id="days" max="30" min="1" type="number" oninput="input()">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="cost" class="col-form-label ">Total Cost:</label>
