@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Favorite;
 use Carbon\Carbon;
 use App\Lease;
 use Illuminate\Http\Request;
@@ -13,11 +14,11 @@ class LeaseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function index()
     {
-        //
+        return view('leases', ['leases' => Auth::user()->leases, 'favorites' => Favorite::all()]);
     }
 
     /**
@@ -34,15 +35,10 @@ class LeaseController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        /**
-         *  todo
-         *   make sure that there is a book id sent from the modal form to $request object
-         */
-//        return $request;
         Auth::user()->leases()->attach($request->id, ['leased_date' => date('yy-m-d'), 'days' => $request->days, 'cost' => $request->cost]);
         return redirect()->route('home');
     }
@@ -55,7 +51,7 @@ class LeaseController extends Controller
      */
     public function show(Lease $lease)
     {
-        //
+
     }
 
     /**
@@ -85,7 +81,7 @@ class LeaseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Lease  $lease
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Lease $lease)
     {

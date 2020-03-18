@@ -82,10 +82,9 @@
                     <input type="hidden" name="user_id" value={{$book->pivot->user_id}}>
                         <input type="hidden" name="book_id" value={{$book->pivot->book_id}}>
                     </form>
-        
+
                     @endif
                 </div>
-                <p>{{property_exists(Auth::user()->leases, $book->id)}}</p>
             </div>
         </div>
     </div>
