@@ -34,7 +34,7 @@
                     <div class="btn-group">
                         @if ($book->available_copies == 0)
                             <button type="button" disabled class="btn btn-sm btn-outline-secondary">unavaliable</button>
-                        @elseif(property_exists(Auth::user()->leases, $book->id))
+                        @elseif(Auth::user()->leases()->where('book_id', $book->id)->exists())
                             <button type="button" disabled class="btn btn-sm btn-outline-secondary">Leased</button>
                         @else
                             <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" class="btn btn-sm btn-outline-secondary">Lease</button>
