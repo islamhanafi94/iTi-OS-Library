@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Lease;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class LeaseController extends Controller
@@ -40,11 +41,16 @@ class LeaseController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()->leases()->attach($request->id, ['leased_date' => date('yy-m-d'), 'days' => $request->days, 'cost' => $request->cost]);
-        $book = Book::find($request->id);
-        $book->available_copies -= 1;
-        $book->save();
-        return redirect()->route('home');
+        if(isset($request->days) && isset($request->cost)) {
+            Auth::user()->leases()->attach($request->id, ['leased_date' => date('yy-m-d'), 'days' => $request->days, 'cost' => $request->cost]);
+            $book = Book::find($request->id);
+            $book->available_copies -= 1;
+            $book->save();
+            return redirect()->route('home')->with('errors', '');
+        }
+        else{
+            return redirect()->route('home')->with('errors', 'You must enter the number of days to lease a book.');
+        }
     }
 
     /**
@@ -89,8 +95,15 @@ class LeaseController extends Controller
      */
     public function destroy(Lease $lease)
     {
-        Auth::user()->leases()->detach($lease);
-        return redirect()->route(home);
+        $expirey_date = Carbon::createFromFormat('Y-m-d', $lease->leased_date);
+        $expirey_date->addDays($lease->days);
+        $date = date('yy-m-d');
+        if($date == $expirey_date) {
+            $book = Book::find($lease->book_id);
+            $book->available_copies += 1;
+            $book->save();
+            Auth::user()->leases()->detach($lease);
+        }
     }
 
     public static function getChartData()

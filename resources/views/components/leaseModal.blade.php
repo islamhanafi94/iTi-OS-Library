@@ -27,8 +27,8 @@
                     <div class="form-group col-md-6">
                         <ul>
                             <li>Cost/day : {{$book->lease_price_per_day}} L.E</li>
-                            <input type="hidden" class="costPerDay" id="costPerDay" value={{$book->lease_price_per_day}}>
-                            <li>available Copies : {{$book->available_copies}}</li>
+                            <input type="hidden" class="costPerDay" value={{$book->lease_price_per_day}}>
+                            <li>Available Copies : {{$book->available_copies}}</li>
                         </ul>
                     </div>
                 </div>
@@ -36,12 +36,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="days" class="col-form-label ">Lease Days:</label>
-                        <input class="form-control days" name="days" id="days" max="30" min="1" type="number" oninput="input({{$index}})">
+                        <input class="form-control days" name="days" max="30" min="1" type="number" required oninput="input({{$index}})">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="cost" class="col-form-label ">Total Cost:</label>
-                        <span class="total"></span>
-                        <input class="form-control cost" id="cost" name="cost" type="hidden">
+{{--                        <span class="total"></span>--}}
+                        <input class="form-control total" name="cost" type="number" readonly>
                     </div>
                 </div>
 
@@ -58,9 +58,9 @@
 <script type="text/javascript">
     function input(id) {
         console.log(id);
-        document.getElementsByClassName('total')[id].innerHTML= document.getElementsByClassName('costPerDay')[id].value * document.getElementsByClassName('days')[id].value;
+        document.getElementsByClassName('total')[id].value= document.getElementsByClassName('costPerDay')[id].value * document.getElementsByClassName('days')[id].value;
         // total.innerHTML = costPerDay.value * days.value;
-        document.getElementsByClassName('cost')[id].value = document.getElementsByClassName('total')[id].innerHTML;
+        // document.getElementsByClassName('cost')[id].value = document.getElementsByClassName('total')[id].innerHTML;
     }
 </script>
 
