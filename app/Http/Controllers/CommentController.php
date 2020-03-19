@@ -38,8 +38,10 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'comment' => ['required']]);
         Auth::user()->comments()->attach($request->bookId, ['comment'=>$request->comment]);
-        return redirect('book/'.$request->bookId);
+        return redirect()->back();
     }
 
     /**

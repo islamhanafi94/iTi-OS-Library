@@ -33,21 +33,21 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         @if ($book->available_copies == 0)
-                            <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" disabled class="btn btn-sm btn-outline-secondary">unavaliable</button>
+                            <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" disabled class="btn btn-sm btn-dark">unavaliable</button>
                             @component('components.leaseModal', ['book'=>$book, 'index' => $index])
                             @endcomponent
                         @elseif(Auth::user()->leases()->where('book_id', $book->id)->exists())
-                            <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" disabled class="btn btn-sm btn-outline-secondary">Leased</button>
+                            <button  type="button" data-toggle="modal" data-target="#M-{{$book->id}}" disabled class="btn btn-sm btn-dark">Leased</button>
                             @component('components.leaseModal', ['book'=>$book, 'index' => $index])
                             @endcomponent
                         @else
-                            <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" class="btn btn-sm btn-outline-secondary">Lease</button>
+                            <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" class="btn btn-sm btn-primary">Lease</button>
                             @component('components.leaseModal', ['book'=>$book, 'index' => $index])
                             @endcomponent
                         @endif
                         {{-- Dalia: I made action on view btn redirct you to page name book.blade.php onclick="window.location='{{ route("books.show", array($book)) }}'"--}}
                         {!! Form::open(['route' => ['book.show', $book], 'method'=>'get']) !!}
-                            <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
+                            <button type="submit" class="btn btn-sm btn-info">View</button>
                         {!! Form::close() !!}
                     </div>
                     {{-- <button type="button" class="btn btn-sm btn-outline-secondary">Favorite</button> --}}
@@ -57,7 +57,7 @@
                         <form action={{route("favorites.destroy",[$book->id])}} method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit"><i class="fa fa-heart" aria-hidden="true"></i>
+                            <button style="background-color: transparent; border: transparent;" type="submit"><i class="fa fa-heart" style="font-size: 20px; color: red;"aria-hidden="true"></i>
                             </button>
 
                             {{-- <input type="submit" value="delete from favorites" class="btn btn-sm btn-outline-secondary"> --}}
@@ -70,7 +70,7 @@
                             @csrf
                             {{-- <input type="submit" value="add to favorites" class="btn btn-sm btn-outline-secondary"> --}}
 
-                            <button type="submit"><i class="fa fa-heart-o" aria-hidden="true"></i>
+                            <button style="background-color: transparent; border: transparent;"  type="submit"><i class="fa fa-heart-o" style="font-size: 20px;" aria-hidden="true"></i>
                             </button>
                             <input type="hidden" name="source" value="home">
                         </form>
@@ -80,7 +80,7 @@
                     <form action={{route("favorites.destroy",[$book->id])}} method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit"><i class="fa fa-heart" aria-hidden="true"></i>
+                        <button style="background-color: transparent; border: transparent;" type="submit"><i class="fa fa-heart" style="font-size: 20px; color: red;" aria-hidden="true"></i>
                         </button>
                     <input type="hidden" name="user_id" value={{$book->pivot->user_id}}>
                         <input type="hidden" name="book_id" value={{$book->pivot->book_id}}>
