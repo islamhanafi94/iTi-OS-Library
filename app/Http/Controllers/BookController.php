@@ -47,9 +47,9 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {
         $request->validate([
-            'title' => ['required',Rule::unique('books')->where(function ($query) {
+            'title' => ['required', Rule::unique('books')->where(function ($query) {
                 return $query->where('deleted_at', NULL);
             })],
             'author' => 'required|max:256',
@@ -59,7 +59,7 @@ class BookController extends Controller
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
         ]);
-        
+
         if ($files = $request->file('image')) {
             $destinationPath = 'image/'; // upload path
             $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
@@ -94,11 +94,9 @@ class BookController extends Controller
         $comments = $book->commentedBy()->get();
         $rate = Auth::user()->rate()->where('book_id', $book->id)->get();
         $ratesCount = count($rate);
-        if($ratesCount == 0 )
-        {
+        if ($ratesCount == 0) {
             return view('book', ['book' => $book, 'comments' => $comments]);
-        } 
-        else {
+        } else {
             return view('book', ['book' => $book, 'comments' => $comments, 'rate' => $rate[0]]);
         }
     }
@@ -125,17 +123,7 @@ class BookController extends Controller
     {
         $categoryID  = CategoryController::getCategoryId($request->category);
 
-        $request->validate([
-            'title' => ['required',Rule::unique('books')->where(function ($query) {
-                return $query->where('deleted_at', NULL);
-            })->ignore($book)],
-            'author' => 'required|max:256',
-            'available_copies' => 'required',
-            'lease_price_per_day' => 'required',
-            'description' => 'required',
-            'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
-        ]);
+        //Validation
 
         DB::table('books')
             ->where('id', $book->id)
@@ -165,60 +153,6 @@ class BookController extends Controller
         return redirect('dashboard/books');
     }
 
-
-    public function userIndex(Request $request)
-    {
-        // get all categories
-        $catagory = CategoryController::getAllCategories();
-        $favorites = UserController::getFavoritesBooks(Auth::id());
-        //check if user sorted data by latest or rating and sort the books the user curruntly listing 
-        if (isset($request->latest) || isset($request->rate)) {
-            $sortdata = $request->sortdata;
-            $sortvalue = $request->sortvalue;
-            if ($sortdata === "category") {
-                if ($sortvalue === "all")
-                    $books = Book::all();
-                else
-                    $books =  Book::where("category_id", $sortvalue)->get();
-            } elseif ($sortdata === "search") {
-                $userSearch = $request->sortvalue;
-                $books = Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
-            } else if ($sortdata === "none") {
-                $books = Book::all();
-            }
-
-            if (isset($request->latest)) {
-                $books = $books->sortByDesc("created_at");
-            } elseif (isset($request->rate)) {
-                $books = $books->sortByDesc("rating");
-            }
-
-            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => $request->sortdata, "sortvalue" => $request->sortvalue, "favorites" => $favorites]);
-        }
-
-        //check if user fliterd books by category 
-        if (isset($request->catagory)) {
-            //check which category user requested
-            if ($request->catagory === "all")
-                return view("index", ["books" => Book::all(), "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory, "favorites" => $favorites]);
-            else {
-                $books =  Book::where("category_id", $request->catagory)->get();
-                return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "category", "sortvalue" => $request->catagory, "favorites" => $favorites]);
-            }
-        }
-        // check if user fliterd books by search
-        else if (isset($request->search)) {
-            $userSearch = $request->search;
-            $books = Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
-            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "search", "sortvalue" => $request->search, "favorites" => $favorites]);
-        } else {
-            $books =  Book::all();
-
-            //return $favorites->search($favorites->find(Book::find(3)->id));
-            return view("index", ["books" => $books, "catagory" => $catagory, "sortdata" => "none", "sortvalue" => "none", "favorites" => $favorites]);
-        }
-    }
-
     /**
      * Display a listing of Books.
      *
@@ -231,14 +165,31 @@ class BookController extends Controller
         return $allBooks;
     }
 
-    public static function getBooks(){
+    public static function handleSortData($sortdata, $userSearch, $sortvalue)
+    {
+        if ($sortdata == "category") {
+            return Book::where("category_id", $sortvalue)->get();
+        } else if ($sortdata == "search") {
+            return Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
+        }
+    }
+    public static function getBooksByCategory($category)
+    {
+        return Book::where("category_id", $category)->get();
+    }
+    public static function getSearchData($userSearch)
+    {
+        return Book::where("title", "like", "%$userSearch%")->orWhere("author", "like", "%$userSearch%")->get();
+    }
+
+    public static function getBooks()
+    {
         return Book::all();
     }
 
-    public static function updateBookRate(int $id, float $avgRate) {
+    public static function updateBookRate(int $id, float $avgRate)
+    {
         $book = Book::find($id);
         DB::table('books')->where('id', $book->id)->update(["rating" => $avgRate]);
-
     }
-
 }
