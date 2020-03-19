@@ -125,7 +125,8 @@ class CategoryController extends Controller
             ->select('id')
             ->where('name', '=', $categoryName)
             ->get();
-        return $categoryID[0]->id;
+        $index = count($categoryID);    
+        return $categoryID[$index-1]->id;
     }
 
     public static function getAllCategories()
