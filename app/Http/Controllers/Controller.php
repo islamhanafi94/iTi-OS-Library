@@ -20,6 +20,6 @@ class Controller extends BaseController
     {
         $this->middleware('auth');
         $this->middleware('checkActive');
-        // $this->middleware('CheckUser');
+//         $this->middleware('CheckUser');
     }
 }
