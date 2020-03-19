@@ -15,5 +15,5 @@
         <input type="radio" name="rating" id="rating-1" value="1" required>
         <label for="rating-1"></label>
     </div>
-    <button type="submit" class="rate btn">Rate</button>
+        <button type="submit" class="rate btn" >Rate</button>   
 {!! Form::close() !!}
