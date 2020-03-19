@@ -20,12 +20,9 @@ class CheckUser
     {
         if(!Auth::user()->is_admin)
         {
-            return redirect('/');
+            return $next($request);
         }
-        else
-        {
-            return redirect('/dashboard');
-        }
-        return $next($request);
+        return abort(403);
+
     }
 }
