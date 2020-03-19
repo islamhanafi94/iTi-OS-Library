@@ -5,6 +5,20 @@ Update Profile
 @endsection
 
 @section('content')
+        @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="modal-body">
             {!! Form::open(['route' => ['userProfile.update', $user ?? ''->id], 'method'=>"put"]) !!}
                 <div class="form-group col-md-6">
@@ -24,7 +38,7 @@ Update Profile
                   <input type="password" required class="form-control" name='confirm_password' id="confirm_password" >
               </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" href="{{ route('home') }}">Close</a>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             {!! Form::close() !!}

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
@@ -61,6 +64,7 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        $this->authorize('update',$user);
         return view("editUser", ['user'=>$user]);  
     }
 
@@ -73,18 +77,28 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = User::find($id);
         $request->validate([
-            'username' => ['required', 'string', 'max:255', 'unique:users,username,NULL,id,deleted_at,NULL'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,NULL,id,deleted_at,NULL'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'username' => ['required', 'string', 'max:255', 
+            Rule::unique('users')->where(function ($query) {
+                return $query->where('deleted_at', NULL);
+            })->ignore($user),],
+            'email' => ['string', 'email', 'max:255',
+            
+            Rule::unique('users')->where(function ($query) {
+                return $query->where('deleted_at', NULL);
+            })->ignore($user),],
         ]);
 
-        $user = User::find($id);
         $user->username = $request->username;
         $user->email = $request->email;
         if (isset($request->password))
         {
             $user->password = Hash::make($request->password);
+            $request->validate([
+            'password' => ['min:8|confirmed'],
+            'password_confirmation' => 'min:8|confirmed',
+            ]);
         }
         $user->save();
         return redirect('home')->with('message', 'Your profile is updated successfully');
