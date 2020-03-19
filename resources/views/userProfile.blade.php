@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.app')
 
 @section('title')
 User Profile
@@ -13,13 +13,11 @@ User Profile
                     <h3 class="card-title">User Profile</h3>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route("user.update",$user->id)}}"
+                    <form method="POST" action="{{ route("userProfile.update",$user->id)}}"
                         enctype="multipart/form-data">
                         @method('POST')
                         @csrf
-
-
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">User Name</label>
@@ -34,21 +32,7 @@ User Profile
                                     <input type="email" name="email" class="form-control" value="{{$user ?? ''->email}}" >
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Password</label>
-                                    <input type="password" name="password" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Confirm Password</label>
-                                    <input type="password" name="confirm_password" class="form-control">
-                                </div>
-                            </div>
-                        </div>
+                        </div> --}}
                         <br>
                         
                         @if ($errors->any())
@@ -61,10 +45,11 @@ User Profile
                         </div>
                         @endif
                         <div class="row justify-content-center">
-                            {!! Form::open(['route' => ['user.update', $user ?? ''->id], 'method'=>"post"]) !!}
-                            {!! Form::submit('Update'); !!}
+                            {{-- {!! Form::open(['route' => ['userProfile.edit', $user ?? ''->id], 'method'=>"GET"]) !!} --}}
+                            <form method="GET" action="{{route('userProfile.edit', $user->id)}}">
+                                <input class="btn btn-primary" type="submit" value="Update"/>
+                            </form>    
                         </div>
-                            {!! Form::close() !!}
                         <div class="clearfix"></div>
 
 
