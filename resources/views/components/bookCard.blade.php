@@ -33,7 +33,9 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         @if ($book->available_copies == 0)
-                            <button type="button" disabled class="btn btn-sm btn-outline-secondary">unavaliable</button>
+                            <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" disabled class="btn btn-sm btn-outline-secondary">unavaliable</button>
+                            @component('components.leaseModal', ['book'=>$book, 'index' => $index])
+                            @endcomponent
                         @elseif(Auth::user()->leases()->where('book_id', $book->id)->exists())
                             <button type="button" data-toggle="modal" data-target="#M-{{$book->id}}" disabled class="btn btn-sm btn-outline-secondary">Leased</button>
                             @component('components.leaseModal', ['book'=>$book, 'index' => $index])
