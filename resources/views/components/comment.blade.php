@@ -17,7 +17,7 @@
                     <form action="{{ route('comment.store') }}">
                         @csrf
                         <input type="hidden" name="bookId" value={{$book->id}}>
-                        <textarea name='comment' placeholder="What is your opnion about this book?" ></textarea>
+                        <textarea name='comment' style="resize:none" placeholder="What is your opnion about this book?" ></textarea>
                         <button type="submit" class="btn btn-success">Share</button>
                     </form>
                     {!! Form::close() !!}
