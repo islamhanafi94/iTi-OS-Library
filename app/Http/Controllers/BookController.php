@@ -125,7 +125,17 @@ class BookController extends Controller
     {
         $categoryID  = CategoryController::getCategoryId($request->category);
 
-        //Validation
+        $request->validate([
+            'title' => ['required',Rule::unique('books')->where(function ($query) {
+                return $query->where('deleted_at', NULL);
+            })->ignore($book)],
+            'author' => 'required|max:256',
+            'available_copies' => 'required',
+            'lease_price_per_day' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
+        ]);
 
         DB::table('books')
             ->where('id', $book->id)
