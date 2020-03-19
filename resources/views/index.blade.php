@@ -36,7 +36,6 @@
                             @csrf
                             @method('DELETE')
                             <input type="submit" value="delete from favorites">
-                            {{-- <input type="hidden" name="user_id" value={{Auth::id()}}> --}}
                             <input type="hidden" name="book_id" value={{$book->id}}>
                             <input type="hidden" name="source" value="index">
                         </form>
