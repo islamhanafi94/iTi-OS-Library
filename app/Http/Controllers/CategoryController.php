@@ -84,14 +84,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        // return $request;
         $request->validate([
             'name' => [
                 'required', 'alpha',
                 Rule::unique('categories')->where(function ($query) {
                     return $query->where('deleted_at', NULL);
-                }),
-            ]
+                })->ignore($category),
+            ],
         ]);
 
         $category->name = $request->name;

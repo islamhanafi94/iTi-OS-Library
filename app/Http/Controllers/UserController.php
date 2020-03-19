@@ -88,8 +88,6 @@ class UserController extends Controller
             'username' => ['required', 'string', 'max:255', "unique:users,username,$user->id,id,deleted_at,NULL"],
             'email' => ['required', 'string', 'email', 'max:255', "unique:users,email,$user->id,id,deleted_at,NULL"],
         ]);
-
-
         if (isset($request->isactive))
             $user->is_active = 1;
         else
