@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
@@ -76,12 +77,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = User::find($id);
         $request->validate([
-            'username' => ['string', 'max:255'],
-            'email' => ['string', 'email', 'max:255',],
+            'username' => ['required', 'string', 'max:255', 
+            Rule::unique('users')->where(function ($query) {
+                return $query->where('deleted_at', NULL);
+            })->ignore($user),],
+            'email' => ['string', 'email', 'max:255',
+            
+            Rule::unique('users')->where(function ($query) {
+                return $query->where('deleted_at', NULL);
+            })->ignore($user),],
         ]);
 
-        $user = User::find($id);
         $user->username = $request->username;
         $user->email = $request->email;
         if (isset($request->password))
