@@ -2,12 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Auth;
-
-
 use Closure;
 
-class CheckUser
+class Admin
 {
     /**
      * Handle an incoming request.
@@ -18,11 +15,9 @@ class CheckUser
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->is_admin == 1)
-        {
+        if(auth()->user()->is_admin == 1) {
             return $next($request);
         }
-        return abort(401);
-
+        return redirect('home');
     }
 }
