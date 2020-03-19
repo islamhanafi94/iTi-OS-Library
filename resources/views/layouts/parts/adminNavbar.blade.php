@@ -69,6 +69,11 @@
                     {{ "My Books" }}
                 </a>
             </li>
+            <li class="navbar-item">
+                <a class="nav-link" href="{{ url('/userProfile/'.Auth::user()->id.'/edit') }}">
+                    {{ "Update My Profile" }}
+                </a>
+            </li>
             @endguest
             </ul>
 

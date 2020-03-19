@@ -77,7 +77,7 @@ class ProfileController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->save();
-        return redirect()->route('userProfile.index')->with('message', 'Your profile is updated successfully');
+        return redirect('home')->with('message', 'Your profile is updated successfully');
     }
 
     /**
