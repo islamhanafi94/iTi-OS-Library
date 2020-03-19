@@ -21,41 +21,48 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', 'HomeController@index')->name('dashboard')->middleware("auth");
+// for admin
+Route::group(['middleware' => ['admin']], function () {
 
-Route::get('/home', 'HomeController@userIndex')->name('home');
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard')->middleware("auth");
+    
+    Route::resource('/dashboard/category',"CategoryController");
 
-Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
+    Route::get('dashboard/category',function(){
+        return view('categories',['categories'=> Category::all()]);
+    })->name('category');
 
+    Route::resource('/dashboard/books',"BookController");
 
-Route::resource('/dashboard/user', 'UserController')->middleware("auth");
+    Route::get("/dashboard/books","BookController@index");
+
+    Route::resource('chart',"LeaseChartController");
+
+    Route::get('dashboard/reports', 'LeaseChartController@index');
+
+    Route::resource('/dashboard/user', 'UserController')->middleware("auth");
+
+});
 
 // for user
-Route::resource('/book',"BookController");
-Route::get('/book/{book}', 'BookController@show')->name('book.show');
+Route::group(['middleware' => ['user']], function () {
 
-// for admin
-Route::resource('/dashboard/books',"BookController");
-Route::get("/dashboard/books","BookController@index");
+    Route::get('/home', 'HomeController@userIndex')->name('home');
 
-Route::resource('/dashboard/category',"CategoryController");
+    Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
 
-Route::resource('lease',"LeaseController");
+    Route::resource('/book',"BookController");
 
-Route::resource('chart',"LeaseChartController");
+    Route::get('/book/{book}', 'BookController@show')->name('book.show');
 
-Route::resource('comment',"CommentController")->middleware('auth');
+    Route::resource('userProfile', 'ProfileController');
 
-Route::get('dashboard/category',function(){
-    return view('categories',['categories'=> Category::all()]);
-})->name('category');
+    Route::resource('comment',"CommentController")->middleware('auth');
 
-Route::get('dashboard/reports', 'LeaseChartController@index');
+    Route::resource('favorites','FavoriteController');
 
+    Route::resource('rates','RateController');
 
-Route::resource('favorites','FavoriteController');
+    Route::resource('lease',"LeaseController");
+});
 
-Route::resource('rates','RateController');
-
-// Route::get('/favorite','FavoriteController@store')->name("addfavorite");
-Route::resource('userProfile', 'ProfileController');
