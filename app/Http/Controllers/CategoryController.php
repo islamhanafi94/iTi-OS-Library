@@ -109,6 +109,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->books()->delete();
+        $category->delete();
         return redirect()->route('category')->with('status', 'Category Deleted Sucssessfuly');
     }
 
@@ -124,7 +125,8 @@ class CategoryController extends Controller
             ->select('id')
             ->where('name', '=', $categoryName)
             ->get();
-        return $categoryID[0]->id;
+        $index = count($categoryID);    
+        return $categoryID[$index-1]->id;
     }
 
     public static function getAllCategories()
