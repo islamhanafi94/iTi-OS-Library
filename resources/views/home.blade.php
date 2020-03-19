@@ -1,38 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="album py-5 bg-light">
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <form action={{route("home")}} method="GET">
+        <a class="navbar-brand">Order By : </a>
+        {{-- <label >order by : </label> --}}
+        <input class="btn btn-info btn-lg" type="submit" name="latest" value="latest">
+        <input class="btn btn-info btn-lg" type="submit" name="rate" value="rate">
+        <input type="hidden" name="sortdata" value={{$sortdata}}>
+        <input type="hidden" name="sortvalue" value={{$sortvalue}}>
+    </form>
+
+    <form class="form-inline" action={{route("home")}} method="GET">
+        <input class="form-control mr-sm-2" type="text" placeholder="search" name="search">
+        <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="search">
+    </form>
+</nav>
+    
+    
+<div class="d-flex album py-5 bg-light">
+    <div id="myList" class="list-group">
+        @isset($catagory)
+        <a class="list-group-item list-group-item-action active" href={{route("home",["catagory"=>"all"])}}>All Categories</a>
+        @foreach ($catagory as $item)
+        <a class="list-group-item list-group-item-action" href={{route("home",["catagory"=>$item->id])}}>{{$item->name}}</a>
+        @endforeach
+        @endisset
+
+      </div>
     <div class="container">
-        <div class="home">
-            <div class="search">
-                <form action={{route("home")}} method="GET">
-                    <input type="text" placeholder="search" name="search">
-                    <input type="submit" value="search">
-                </form>
-            </div>
-
-
-            {{-- filter by category --}}
-            @isset($catagory)
-                <div class="sidebar">
-                    <h1 class="sidebartitle">select by category</h1>
-                    <a href={{route("home",["catagory"=>"all"])}}><button>all categories</button></a>
-                    @foreach ($catagory as $item)
-                        <a href={{route("home",["catagory"=>$item->id])}}><button>{{$item->name}}</button></a>
-                    @endforeach
-                </div>
-            @endisset
-
-            <div class="orderby">
-                <form action={{route("home")}} method="GET">
-                    <label>order by : </label>
-                    <input type="submit" name="latest" value="latest">
-                    <input type="submit" name="rate" value="rate">
-                    <input type="hidden" name="sortdata" value={{$sortdata}}>
-                    <input type="hidden" name="sortvalue" value={{$sortvalue}}>
-                </form>
-            </div>
-        </div>
+        
         <div class="row">
 
             <?php
@@ -53,21 +50,3 @@
 </div>
 @endsection
 
-
-    {{-- <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        You are logged in!
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
