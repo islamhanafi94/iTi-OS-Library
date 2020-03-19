@@ -5,6 +5,20 @@ Update Profile
 @endsection
 
 @section('content')
+        @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="modal-body">
             {!! Form::open(['route' => ['userProfile.update', $user ?? ''->id], 'method'=>"put"]) !!}
                 <div class="form-group col-md-6">
