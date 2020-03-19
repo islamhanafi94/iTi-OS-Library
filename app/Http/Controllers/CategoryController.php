@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => [
-                'required', 'alpha',
+                'required', 'string',
                 Rule::unique('categories')->where(function ($query) {
                     return $query->where('deleted_at', NULL);
                 }),
