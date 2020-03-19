@@ -15,6 +15,14 @@ Update Profile
                     <label for="email">Email</label>
                     <input type="email" required class="form-control" name='email' id="email" value="{{$user -> email}}">
                 </div>
+                <div class="form-group col-md-6">
+                  <label for="password">password</label>
+                  <input type="password" required class="form-control" name='password' id="password" >
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="password">confirm password</label>
+                  <input type="password" required class="form-control" name='confirm_password' id="confirm_password" >
+              </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Update</button>
