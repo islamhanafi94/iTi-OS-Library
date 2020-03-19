@@ -75,9 +75,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,NULL,id,deleted_at,NULL'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,NULL,id,deleted_at,NULL'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
         $user = User::find($id);
         $user->username = $request->username;
         $user->email = $request->email;
+        if (isset($request->password))
+        {
+            $user->password = Hash::make($request->password);
+        }
         $user->save();
         return redirect('home')->with('message', 'Your profile is updated successfully');
     }
