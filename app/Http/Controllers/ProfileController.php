@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\facades\Auth;
@@ -61,6 +62,7 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        $this->authorize('update',$user);
         return view("editUser", ['user'=>$user]);  
     }
 
