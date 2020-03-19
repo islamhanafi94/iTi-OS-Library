@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -76,9 +77,8 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'username' => ['required', 'string', 'max:255', 'unique:users,username,NULL,id,deleted_at,NULL'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,NULL,id,deleted_at,NULL'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'username' => ['string', 'max:255'],
+            'email' => ['string', 'email', 'max:255',],
         ]);
 
         $user = User::find($id);
@@ -87,6 +87,10 @@ class ProfileController extends Controller
         if (isset($request->password))
         {
             $user->password = Hash::make($request->password);
+            $request->validate([
+            'password' => ['min:8|confirmed'],
+            'password_confirmation' => 'min:8|confirmed',
+            ]);
         }
         $user->save();
         return redirect('home')->with('message', 'Your profile is updated successfully');

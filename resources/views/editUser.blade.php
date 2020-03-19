@@ -38,7 +38,7 @@ Update Profile
                   <input type="password" required class="form-control" name='confirm_password' id="confirm_password" >
               </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" href="{{ route('home') }}">Close</a>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             {!! Form::close() !!}
