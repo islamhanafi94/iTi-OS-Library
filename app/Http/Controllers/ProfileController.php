@@ -76,9 +76,8 @@ class ProfileController extends Controller
         $user = User::find($id);
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
         $user->save();
-        return redirect('userProfile')->with('message', 'Your profile is updated successfully');
+        return redirect()->route('userProfile.index')->with('message', 'Your profile is updated successfully');
     }
 
     /**
