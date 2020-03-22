@@ -11,49 +11,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
             @guest
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                @endif
- --}}
-            @elseif (Auth::user()->is_admin)
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Users
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="#">Add user</a>
-                      <a class="dropdown-item" href="#">List All users</a>
-                      <a class="dropdown-item" href="#">Update user Data</a>
-                    </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Books
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="#">Add Book</a>
-                      <a class="dropdown-item" href="#">List All Books</a>
-                      {{-- <a class="dropdown-item" href="#">Update user Data</a> --}}
-                    </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Categories
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="#">Add Category</a>
-                      <a class="dropdown-item" href="#">List All Categories</a>
-                      {{-- <a class="dropdown-item" href="#">Update user Data</a> --}}
-                    </div>
-                  </li>
-
-
-            @else
+            @elseif (!Auth::user()->is_admin)
             <li class="navbar-item">
                 <a class="nav-link" href="{{ url('/home') }}">
                     {{ "Home" }}
