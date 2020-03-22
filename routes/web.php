@@ -23,14 +23,6 @@ Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('dashboard')->middleware(["auth", "admin"]);
 
-Route::get('/home', 'HomeController@userIndex')->name('home');
-
-Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
-
-// for user
-Route::resource('/book',"BookController");
-Route::get('/book/{book}', 'BookController@show')->name('book.show');
-
 Route::resource('lease',"LeaseController");
 
 Route::resource('chart',"LeaseChartController");
@@ -41,10 +33,10 @@ Route::resource('favorites','FavoriteController');
 
 Route::resource('rates','RateController');
 
-Route::resource('userProfile', 'ProfileController');
 
 // for admin
 Route::group(['middleware' => ['admin']], function () {
+
     Route::get('dashboard/category',function(){
         return view('categories',['categories'=> Category::all()]);
     })->name('category');
@@ -60,3 +52,18 @@ Route::group(['middleware' => ['admin']], function () {
     Route::resource('/dashboard/user', 'UserController')->middleware("auth");
 
 });
+
+// for user
+Route::group(['middleware' => ['user']], function () {
+
+    Route::get('/home', 'HomeController@userIndex')->name('home');
+
+    Route::get('/index',"BookController@userIndex")->name("index")->middleware("auth");
+
+    Route::resource('/book',"BookController");
+
+    Route::get('/book/{book}', 'BookController@show')->name('book.show');
+
+    Route::resource('userProfile', 'ProfileController');
+});
+
